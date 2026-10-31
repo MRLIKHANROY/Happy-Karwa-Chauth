@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: #FFF4E6;
+    color: #2A0808;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: var(--font-serif);
+  }
+}
+
+@keyframes diyaFlicker {
+  0%, 100% {
+    transform: scale(1, 1) rotate(-0.8deg);
+    opacity: 0.97;
+  }
+  33% {
+    transform: scale(1.04, 0.96) rotate(1deg);
+    opacity: 1;
+  }
+  66% {
+    transform: scale(0.97, 1.04) rotate(-0.6deg);
+    opacity: 0.94;
+  }
+}
+
+@keyframes diyaHaloPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes mandalaRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bellDoubleStrike {
+  0% {
+    transform: rotate(0deg);
+  }
+  16% {
+    transform: rotate(15deg);
+  }
+  44% {
+    transform: rotate(-14deg);
+  }
+  68% {
+    transform: rotate(8deg);
+  }
+  84% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes clapperDoubleStrike {
+  0% {
+    transform: translateX(0px);
+  }
+  16% {
+    transform: translateX(6px);
+  }
+  44% {
+    transform: translateX(-6px);
+  }
+  68% {
+    transform: translateX(3px);
+  }
+  84% {
+    transform: translateX(-1.5px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes bellWavePulse {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.95;
+  }
+  35% {
+    transform: scale(1.18);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.animate-bell-swing {
+  transform-origin: 50% 8%;
+  animation: bellDoubleStrike 0.9s ease-in-out 3;
+}
+
+.animate-bell-swing-svg {
+  transform-origin: 0px 0px;
+  animation: bellDoubleStrike 0.9s ease-in-out 3;
+}
+
+.animate-bell-clapper-svg {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: clapperDoubleStrike 0.9s ease-in-out 3;
+}
+
+.animate-bell-wave-svg {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: bellWavePulse 0.9s ease-out 3;
+}
+
+.animate-diya-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diyaFlicker 2.6s ease-in-out infinite;
+}
+
+.animate-diya-halo {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: diyaHaloPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes diyaSmokeFlow {
+  0% {
+    transform: translateY(4px) translateX(0px) scaleX(0.9);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.58;
+  }
+  65% {
+    transform: translateY(-18px) translateX(4px) scaleX(1.12);
+    opacity: 0.42;
+  }
+  100% {
+    transform: translateY(-38px) translateX(-3px) scaleX(1.25);
+    opacity: 0;
+  }
+}
+
+@keyframes diyaSmokeFlowAlt {
+  0% {
+    transform: translateY(2px) translateX(0px) scaleX(0.88);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.46;
+  }
+  70% {
+    transform: translateY(-22px) translateX(-5px) scaleX(1.15);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translateY(-42px) translateX(4px) scaleX(1.28);
+    opacity: 0;
+  }
+}
+
+.animate-diya-smoke {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diyaSmokeFlow 3.4s ease-in-out infinite;
+}
+
+.animate-diya-smoke-alt {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diyaSmokeFlowAlt 4.1s ease-in-out infinite 1.4s;
+}
+
+.animate-mandala-slow {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: mandalaRotate 90s linear infinite;
+}
+
+/* Prevent any square focus/tap selection box when clicking on SVG artwork */
+.no-svg-select,
+.no-svg-select * {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Tactile button click feedback within 150ms */
+.btn-festive-outline {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-festive-outline:active {
+  transform: scale(0.97);
+}
+
+/* Respect Reduced Motion by default unless user explicitly enables petals */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-mandala-slow {
+    animation: none !important;
+  }
+}
+

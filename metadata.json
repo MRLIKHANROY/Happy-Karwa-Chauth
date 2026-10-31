@@ -1,0 +1,6 @@
+{
+  "name": "Happy Karwa Chauth — Sacred Vrat & Puja Guide",
+  "description": "Celebrate Karwa Chauth with a verified Indian Panchang countdown, step-by-step Puja Vidhi, interactive Samagri checklist, Sargi & Chhalni ritual guides, and shareable festive greeting cards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
