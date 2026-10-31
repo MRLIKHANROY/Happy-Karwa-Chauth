@@ -162,14 +162,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqSubtitle:
       'Authentic answers on Panchang timings, cloudy-sky moonrise traditions, and health-conscious fasting practices.',
     cardDefaults: {
-      headerLine: 'SHUBH KARWA CHAUTH · SACRED BLESSINGS',
-      greetingLine: 'Dearest Priya,',
-      titleLine: 'Under the Silver Autumn Moon',
+      headerLine: 'Sacred Festival of Love & Togetherness',
+      greetingLine: 'My Beloved Wife,',
+      titleLine: 'The Light & Soul of Our Home',
       bodyMessage:
-        'As the full moon illuminates your chhalni tonight, I am grateful for every smile, every quiet prayer, and the warmth you bring into our home.',
+        'As the full moon illuminates your chhalni tonight, I am deeply grateful for every smile, every quiet prayer, and the warmth you bring into our home.',
       closingLine: 'Happy Karwa Chauth, my love.',
-      signatureLine: 'With love & prayers — Aarav',
-      footerLine: 'Kartik Krishna Chaturthi · Shubh Chandrodaya',
+      signatureLine: 'With Eternal Devotion — Your Loving Husband',
+      footerLine: 'Shubh Karwa Chauth · Kartik Chaturthi',
     },
   },
 
@@ -244,14 +244,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqSubtitle:
       'পঞ্জিকার সময়, মেঘলা আকাশে চাঁদ না দেখা গেলে করণীয় এবং ব্রতের স্বাস্থ্যবিধি সম্পর্কিত তথ্য।',
     cardDefaults: {
-      headerLine: 'শুভ করওয়া চৌথ · মঙ্গল আশীর্বাদ',
-      greetingLine: 'প্রিয়তমা প্রিয়া,',
-      titleLine: 'শরতের পূর্ণ চাঁদের স্নিগ্ধ আলোয়',
+      headerLine: 'ভালোবাসা ও অটুট বন্ধনের পবিত্র উৎসব',
+      greetingLine: 'আমার প্রিয়তমা স্ত্রী,',
+      titleLine: 'আমাদের ঘরের আলো ও প্রাণ',
       bodyMessage:
-        'আজকের এই পবিত্র রাতে প্রদীপের আলো ও চাঁদের স্নিগ্ধ কিরণ আমাদের জীবনকে ভালোবাসা, শান্তি এবং অটুট বিশ্বাসে ভরিয়ে তুলুক। তোমার প্রতিটি প্রার্থনা ও হাসির জন্য আমি চিরকৃতজ্ঞ।',
+        'আজ রাতে পূর্ণ চাঁদের স্নিগ্ধ আলো যখন তোমার চালুনি ও প্রদীপের শিখায় ভরে উঠবে, আমি কৃতজ্ঞ চিত্তে স্মরণ করি তোমার প্রতিটি হাসি, নীরব প্রার্থনা এবং আমাদের সংসারের উষ্ণতা।',
       closingLine: 'শুভ করওয়া চৌথ, আমার ভালোবাসা।',
-      signatureLine: 'ভালোবাসা ও প্রার্থনায় — আরভ',
-      footerLine: 'কার্তিক কৃষ্ণ চতুর্থী · শুভ চন্দ্রোদয়',
+      signatureLine: 'অনন্ত ভালোবাসা ও শ্রদ্ধায় — তোমার স্বামী',
+      footerLine: 'শুভ করওয়া চৌথ · কার্তিক চতুর্থী',
     },
   },
 
@@ -326,14 +326,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqSubtitle:
       'पंचांग मुहूर्त, बादल छाए रहने पर चन्द्र अर्घ्य नियम और स्वास्थ्य संबंधी उपयोगी जानकारी।',
     cardDefaults: {
-      headerLine: 'शुभ करवा चौथ · मंगलमय आशीर्वाद',
-      greetingLine: 'प्रिय प्रिया,',
-      titleLine: 'चौथ के चाँद की पावन चाँदनी में',
+      headerLine: 'प्रेम, समर्पण और अखण्ड सौभाग्य का पर्व',
+      greetingLine: 'मेरी प्रियतमा पत्नी,',
+      titleLine: 'हमारे घर-आँगन की रौनक और प्राण',
       bodyMessage:
-        'जैसे ही आज रात पूनम-सा दमकता चौथ का चाँद आपकी छलनी और दीपक की लौ से जगमगाए, हमारा घर-आँगन सदा प्रेम, विश्वास और सुख-शांति से महकता रहे।',
-      closingLine: 'करवा चौथ की हार्दिक शुभकामनाएँ!',
-      signatureLine: 'स्नेह और प्रार्थनाओं सहित — आरव',
-      footerLine: 'कार्तिक कृष्ण चतुर्थी · पावन चन्द्रोदय पर्व',
+        'जैसे ही आज रात चौथ का चाँद आपकी छलनी और दीपक की ज्योति से जगमगाए, मैं आपकी हर मुस्कान, हर मौन प्रार्थना और हमारे घर को प्रेम से संवारने के लिए हृदय से कृतज्ञ हूँ।',
+      closingLine: 'करवा चौथ की हार्दिक शुभकामनाएँ, प्रिये।',
+      signatureLine: 'अटूट प्रेम और सम्मान सहित — तुम्हारा पति',
+      footerLine: 'शुभ करवा चौथ · कार्तिक कृष्ण चतुर्थी',
     },
   },
 
@@ -407,14 +407,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqTitle: 'ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ',
     faqSubtitle: 'ਪੰਚਾਂਗ ਸਮੇਂ ਅਤੇ ਵਰਤ ਦੇ ਨਿਯਮਾਂ ਬਾਰੇ ਪੂਰੀ ਜਾਣਕਾਰੀ।',
     cardDefaults: {
-      headerLine: 'ਸ਼ੁਭ ਕਰਵਾ ਚੌਥ · ਪਿਆਰ ਭਰੀਆਂ ਅਸੀਸਾਂ',
-      greetingLine: 'ਪਿਆਰੀ ਪ੍ਰਿਆ,',
-      titleLine: 'ਚੌਥ ਦੇ ਚੰਨ ਦੀ ਠੰਢੀ ਚਾਨਣੀ ਹੇਠ',
+      headerLine: 'ਪਿਆਰ ਅਤੇ ਅਟੁੱਟ ਸਾਥ ਦਾ ਪਵਿੱਤਰ ਤਿਉਹਾਰ',
+      greetingLine: 'ਮੇਰੀ ਪਿਆਰੀ ਪਤਨੀ,',
+      titleLine: 'ਸਾਡੇ ਘਰ ਦੀ ਰੌਣਕ ਅਤੇ ਜਾਨ',
       bodyMessage:
-        'ਚੌਥ ਦਾ ਚੰਨ ਅਤੇ ਦੀਵੇ ਦੀ ਲੋਅ ਸਾਡੇ ਘਰ ਵਿੱਚ ਹਮੇਸ਼ਾ ਪਿਆਰ, ਖੁਸ਼ੀਆਂ ਅਤੇ ਤੰਦਰੁਸਤੀ ਬਣਾਈ ਰੱਖੇ।',
-      closingLine: 'ਕਰਵਾ ਚੌਥ ਦੀਆਂ ਲੱਖ-ਲੱਖ ਵਧਾਈਆਂ!',
-      signatureLine: 'ਪਿਆਰ ਅਤੇ ਦੁਆਵਾਂ ਨਾਲ — ਆਰਵ',
-      footerLine: 'ਕੱਤਕ ਕ੍ਰਿਸ਼ਨ ਚਤੁਰਥੀ · ਸ਼ੁਭ ਚੰਦਰ ਦਰਸ਼ਨ',
+        'ਅੱਜ ਰਾਤ ਜਦੋਂ ਚੌਥ ਦਾ ਚੰਨ ਤੁਹਾਡੀ ਛਾਨਣੀ ਅਤੇ ਦੀਵੇ ਦੀ ਲੋਅ ਵਿੱਚ ਚਮਕੇ, ਮੈਂ ਤੁਹਾਡੀ ਹਰ ਮੁਸਕਾਨ, ਹਰ ਅਰਦਾਸ ਅਤੇ ਸਾਡੇ ਘਰ ਵਿੱਚ ਭਰੇ ਪਿਆਰ ਲਈ ਦਿਲੋਂ ਸ਼ੁਕਰਗੁਜ਼ਾਰ ਹਾਂ।',
+      closingLine: 'ਕਰਵਾ ਚੌਥ ਦੀਆਂ ਲੱਖ-ਲੱਖ ਵਧਾਈਆਂ।',
+      signatureLine: 'ਅਟੁੱਟ ਪਿਆਰ ਅਤੇ ਸਤਿਕਾਰ ਸਹਿਤ — ਤੁਹਾਡਾ ਪਤੀ',
+      footerLine: 'ਸ਼ੁਭ ਕਰਵਾ ਚੌਥ · ਕੱਤਕ ਚਤੁਰਥੀ',
     },
   },
 
@@ -488,14 +488,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqTitle: 'વારંવાર પૂછાતા પ્રશ્નો',
     faqSubtitle: 'પંચાંગ સમય અને વ્રતના નિયમો વિશે પ્રમાણિત માહિતી.',
     cardDefaults: {
-      headerLine: 'શુભ કરવા ચોથ · મંગલ આશીર્વાદ',
-      greetingLine: 'પ્રિય પ્રિયા,',
-      titleLine: 'ચોથના ચંદ્રની શીતળ ચાંદનીમાં',
+      headerLine: 'પ્રેમ અને અખંડ સૌભાગ્યનું પવિત્ર પર્વ',
+      greetingLine: 'મારી પ્રિય પત્ની,',
+      titleLine: 'આપણા ઘરની રોનક અને પ્રાણ',
       bodyMessage:
-        'આજની આ પવિત્ર રાત્રે દીવાનો પ્રકાશ અને ચંદ્રની શીતળતા આપણા જીવનમાં પ્રેમ, શાંતિ અને અખંડ આનંદ ભરી દે.',
-      closingLine: 'કરવા ચોથની હાર્દિક શુભેચ્છાઓ!',
-      signatureLine: 'પ્રેમ અને પ્રાર્થના સહ — આરવ',
-      footerLine: 'કાર્તિક કૃષ્ણ ચતુર્થી · પવિત્ર ચંદ્રોદય',
+        'આજે રાત્રે જ્યારે ચોથનો ચંદ્ર તમારી ચારણી અને દીવાની જ્યોતથી ઝળહળી ઉઠે, ત્યારે તમારા દરેક સ્મિત, દરેક પ્રાર્થના અને આપણા ઘરને પ્રેમથી સજાવવા બદલ હું હૃદયપૂર્વક આભારી છું.',
+      closingLine: 'કરવા ચોથની હાર્દિક શુભેચ્છાઓ.',
+      signatureLine: 'અટૂટ પ્રેમ અને સન્માન સહ — તમારો પતિ',
+      footerLine: 'શુભ કરવા ચોથ · કાર્તિક ચતુર્થી',
     },
   },
 
@@ -569,14 +569,14 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     faqTitle: 'नेहमी विचारले जाणारे प्रश्न',
     faqSubtitle: 'पंचांग वेळ आणि व्रताच्या नियमांबद्दल सविस्तर माहिती.',
     cardDefaults: {
-      headerLine: 'शुभ करवा चौथ · मंगलमय आशीर्वाद',
-      greetingLine: 'प्रिय प्रिया,',
-      titleLine: 'चतुर्थीच्या चंद्राच्या शीतल प्रकाशात',
+      headerLine: 'प्रेम आणि अखंड सौभाग्याचा पावन सण',
+      greetingLine: 'माझी प्रिय पत्नी,',
+      titleLine: 'आपल्या घराची शोभा आणि प्राण',
       bodyMessage:
-        'आजच्या या पावन रात्री दिव्याचा प्रकाश आणि चंद्राची शीतलता आपल्या आयुष्यात प्रेम, शांती आणि अखंड आनंद घेऊन येवो.',
-      closingLine: 'करवा चौथच्या हार्दिक शुभेच्छा!',
-      signatureLine: 'प्रेम आणि प्रार्थनेसह — आरव',
-      footerLine: 'कार्तिक कृष्ण चतुर्थी · पावन चंद्रोदय सोहळा',
+        'आज रात्री जेव्हा चतुर्थीचा चंद्र तुझ्या चाळणीतून आणि दिव्याच्या ज्योतीतून उजळून निघेल, तेव्हा तुझ्या प्रत्येक हास्याबद्दल, प्रार्थनेबद्दल आणि आपल्या घराला प्रेमाने सजवल्याबद्दल मी मनापासून कृतज्ञ आहे.',
+      closingLine: 'करवा चौथच्या मनापासून शुभेच्छा!',
+      signatureLine: 'अटूट प्रेम आणि आदरासह — तुझा पती',
+      footerLine: 'शुभ करवा चौथ · कार्तिक चतुर्थी',
     },
   },
 };

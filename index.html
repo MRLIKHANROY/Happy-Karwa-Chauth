@@ -90,7 +90,7 @@
     <!-- Local & Build Stylesheet for Vite & GitHub -->
     <link rel="stylesheet" href="./src/index.css" />
     <!-- Standalone Production CSS for GitHub Pages & Static Direct Serving -->
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style.css?v=20261031-v10" />
 
     <!-- Schema.org Structured Data (Event, HowTo & FAQPage) -->
     <script type="application/ld+json">
@@ -187,18 +187,30 @@
   <body class="bg-[#FFF4E6] text-[#2A0808] antialiased selection:bg-[#7F1D1D] selection:text-[#FFF4E6]">
     <div id="root"></div>
     <!-- Primary application entry for Vite dev server & production builds -->
-    <script type="module" src="./src/main.tsx"></script>
+    <script>
+      window.__LOAD_STATIC_BUNDLE__ = function () {
+        if (window.__VITE_APP_MOUNTED__ || window.__STATIC_BUNDLE_LOADING__) return;
+        window.__STATIC_BUNDLE_LOADING__ = true;
+        var fallback = document.createElement("script");
+        fallback.src = "./bundle.js?v=20261031-v10";
+        fallback.charset = "utf-8";
+        fallback.defer = true;
+        document.body.appendChild(fallback);
+      };
+    </script>
+    <script
+      type="module"
+      src="./src/main.tsx"
+      onerror="window.__LOAD_STATIC_BUNDLE__()"
+    ></script>
     <!-- Automatic fallback loader for static GitHub Pages without an active bundler -->
     <script>
       window.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
           if (!window.__VITE_APP_MOUNTED__) {
-            var fallback = document.createElement("script");
-            fallback.src = "./bundle.js";
-            fallback.defer = true;
-            document.body.appendChild(fallback);
+            window.__LOAD_STATIC_BUNDLE__();
           }
-        }, 500);
+        }, 250);
       });
     </script>
   </body>
