@@ -902,7 +902,7 @@ export const OrnateDivider: React.FC = () => (
 export const CardTopLotusOrnament: React.FC<{
   className?: string;
   variant?: 'gold' | 'sindoor-gold';
-}> = ({ className = 'w-56 sm:w-64 h-8 mx-auto', variant = 'sindoor-gold' }) => {
+}> = ({ className = 'w-28 sm:w-32 h-4 mx-auto', variant = 'sindoor-gold' }) => {
   const uid = React.useId().replace(/:/g, '');
   const isGold = variant === 'gold';
 

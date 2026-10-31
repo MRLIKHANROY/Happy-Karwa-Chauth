@@ -28,6 +28,7 @@ export interface CardDefaultRows {
 export interface SiteTranslation {
   brandTitle: string;
   langBarLabel: string;
+  navTopPage: string;
   navCountdown: string;
   navPujaVidhi: string;
   navSamagri: string;
@@ -37,6 +38,7 @@ export interface SiteTranslation {
   heroKicker: string;
   heroTitle: string;
   heroSubtitle: string;
+  heroMantraText: string;
   heroMantraMeaning: string;
   btnLiveCountdown: string;
   btnSamagriChecklist: string;
@@ -91,6 +93,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   en: {
     brandTitle: 'Happy Karwa Chauth',
     langBarLabel: 'Language',
+    navTopPage: 'Top Page',
     navCountdown: 'Countdown',
     navPujaVidhi: 'Puja Vidhi',
     navSamagri: 'Samagri',
@@ -102,6 +105,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
       'Happy Karwa Chauth — A Celebration of Love, Devotion & Togetherness',
     heroSubtitle:
       'From the pre-dawn blessing of Sargi to beholding the moon through the Chhalni with a lit diya—explore verified Panchang timings, complete Puja Vidhi, Samagri checklist, and custom greeting cards.',
+    heroMantraText: '“Karaka Chaturthi Vratam Sukha-Saubhagya Samriddhi-Dayakam”',
     heroMantraMeaning:
       'May the sacred observance of Karak Chaturthi nurture harmony, good health, mutual respect, and lifelong companionship in every home.',
     btnLiveCountdown: 'Live Moonrise Countdown',
@@ -172,6 +176,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   bn: {
     brandTitle: 'শুভ করওয়া চৌথ',
     langBarLabel: 'ভাষা',
+    navTopPage: 'প্রথম পৃষ্ঠা',
     navCountdown: 'কাউন্টডাউন',
     navPujaVidhi: 'পূজা বিধি',
     navSamagri: 'পূজা সামগ্রী',
@@ -182,6 +187,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     heroTitle: 'শুভ করওয়া চৌথ — ভালোবাসা, শ্রদ্ধা ও অটুট বন্ধনের পবিত্র উৎসব',
     heroSubtitle:
       'ভোরের পবিত্র সারগি থেকে শুরু করে রাতে চালুনি ও প্রদীপের আলোয় চাঁদ দেখার পুণ্য মুহূর্ত—সঠিক পঞ্জিকা সময়, সম্পূর্ণ পূজা বিধি, সামগ্রী তালিকা এবং নিজের ভাষায় শুভেচ্ছা কার্ড তৈরি করুন।',
+    heroMantraText: '“করকচতুর্থী ব্রতং সুখসৌভাগ্য সমৃদ্ধিদায়কং”',
     heroMantraMeaning:
       'করক চতুর্থীর এই পবিত্র ব্রত প্রতিটি পরিবারে সুখ, সুস্বাস্থ্য, সম্প্রীতি এবং আজীবন ভালোবাসার বন্ধন অটুট রাখুক।',
     btnLiveCountdown: 'চন্দ্রোদয় কাউন্টডাউন দেখুন',
@@ -196,19 +202,19 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     countdownKicker: '০১ · ভারতীয় পঞ্জিকা ও চন্দ্রোদয় মুহূর্ত',
     countdownTitle: 'করওয়া চৌথ চন্দ্রোদয় ও উৎসবের লাইভ কাউন্টডাউন',
     countdownSubtitle:
-      'নিচে আপনার বছর এবং শহর নির্বাচন করে সঠিক ভারতীয় সময় (IST) ও আপনার স্থানীয় সময়ে পূজার মুহূর্ত এবং চাঁদ ওঠার সময় দেখে নিন।',
+      'নিচে আপনার বছর এবং শহর নির্বাচন করে সঠিক ভারতীয় সময় ও আপনার স্থানীয় সময়ে পূজার মুহূর্ত এবং চাঁদ ওঠার সময় দেখে নিন।',
     selectYearLabel: 'উৎসবের বছর নির্বাচন করুন',
     selectCityLabel: 'চাঁদ ওঠার সময়ের জন্য শহর নির্বাচন করুন',
     unitDays: 'দিন',
     unitHours: 'ঘণ্টা',
     unitMinutes: 'মিনিট',
     unitSeconds: 'সেকেন্ড',
-    unitAgo: 'আগে (Ago)',
-    unitLeft: 'বাকি (Left)',
-    yearStatusPast: 'গত (Past)',
-    yearStatusComing: 'আসন্ন (Coming)',
-    statusPassedBadge: 'উৎসব সম্পন্ন হয়েছে · যত সময় কেটে গেছে (Ago)',
-    statusUpcomingBadge: 'আসন্ন উৎসব · যত সময় বাকি আছে (Left)',
+    unitAgo: 'আগে',
+    unitLeft: 'বাকি',
+    yearStatusPast: 'অতীত',
+    yearStatusComing: 'আসন্ন',
+    statusPassedBadge: 'উৎসব সম্পন্ন হয়েছে · অতিক্রান্ত সময়',
+    statusUpcomingBadge: 'আসন্ন উৎসব · অবশিষ্ট সময়',
     pujaVidhiKicker: '০২ · সম্পূর্ণ পূজা পদ্ধতি',
     pujaVidhiTitle: 'করওয়া চৌথ পূজা বিধি — ধাপে ধাপে নির্দেশিকা',
     pujaVidhiSubtitle:
@@ -228,13 +234,13 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     wishesKicker: '০৬ · শুভেচ্ছা বার্তা ও কাস্টম কার্ড স্টুডিও',
     wishesTitle: 'করওয়া চৌথের শুভেচ্ছা ও শেয়ার করার গ্রিটিং কার্ড',
     wishesSubtitle:
-      'কার্ডের প্রতিটি লাইন নিজের মতো পরিবর্তন করুন, লম্বালম্বি (Vertical) বা আড়াআড়ি (Horizontal) সাইজ বেছে নিন এবং PNG কার্ড ডাউনলোড বা শেয়ার করুন।',
+      'কার্ডের প্রতিটি লাইন নিজের মতো পরিবর্তন করুন, লম্বালম্বি বা আড়াআড়ি সাইজ বেছে নিন এবং কার্ড ডাউনলোড বা শেয়ার করুন।',
     studioHeading: 'কার্ডের প্রতিটি লাইন পরিবর্তন করুন',
     btnDownloadCard: 'কার্ড ডাউনলোড করুন',
     btnCopyCardText: 'টেক্সট কপি করুন',
     btnShareCard: 'কার্ড শেয়ার করুন',
     faqKicker: '০৭ · সাধারণ জিজ্ঞাসা ও উত্তর',
-    faqTitle: 'সচরাচর জিজ্ঞাসিত প্রশ্নাবলী (FAQ)',
+    faqTitle: 'সচরাচর জিজ্ঞাসিত প্রশ্নাবলী',
     faqSubtitle:
       'পঞ্জিকার সময়, মেঘলা আকাশে চাঁদ না দেখা গেলে করণীয় এবং ব্রতের স্বাস্থ্যবিধি সম্পর্কিত তথ্য।',
     cardDefaults: {
@@ -252,6 +258,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   hi: {
     brandTitle: 'शुभ करवा चौथ',
     langBarLabel: 'भाषा',
+    navTopPage: 'मुख्य पृष्ठ',
     navCountdown: 'काउंटडाउन',
     navPujaVidhi: 'पूजा विधि',
     navSamagri: 'पूजा सामग्री',
@@ -262,6 +269,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     heroTitle: 'शुभ करवा चौथ — समर्पण, स्नेह और अखण्ड सौभाग्य का पावन पर्व',
     heroSubtitle:
       'भोर की पावन सरगी से लेकर रात्रि में छलनी और दीपक की ज्योति से चन्द्र दर्शन तक—प्रमाणित पंचांग समय, संपूर्ण पूजा विधि, सामग्री सूची और शुभकामना कार्ड।',
+    heroMantraText: '“करकचतुर्थी व्रतं सुखसौभाग्य समृद्धिदायकम्”',
     heroMantraMeaning:
       'करक चतुर्थी का यह पावन व्रत प्रत्येक घर-परिवार में सुख, उत्तम स्वास्थ्य, सामंजस्य और अटूट प्रेम का संचार करे।',
     btnLiveCountdown: 'चन्द्रोदय काउंटडाउन देखें',
@@ -276,19 +284,19 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     countdownKicker: '०१ · प्रमाणित भारतीय पंचांग एवं चन्द्रोदय मुहूर्त',
     countdownTitle: 'करवा चौथ चन्द्रोदय एवं पर्व काउंटडाउन',
     countdownSubtitle:
-      'नीचे वर्ष और अपना शहर चुनें तथा भारतीय मानक समय (IST) व अपने स्थानीय समय के अनुसार पूजा मुहूर्त और चाँद निकलने का समय देखें।',
+      'नीचे वर्ष और अपना शहर चुनें तथा भारतीय मानक समय व अपने स्थानीय समय के अनुसार पूजा मुहूर्त और चाँद निकलने का समय देखें।',
     selectYearLabel: 'पर्व का वर्ष चुनें',
     selectCityLabel: 'चन्द्रोदय समय के लिए शहर चुनें',
     unitDays: 'दिन',
     unitHours: 'घंटे',
     unitMinutes: 'मिनट',
     unitSeconds: 'सेकंड',
-    unitAgo: 'पूर्व (Ago)',
-    unitLeft: 'शेष (Left)',
-    yearStatusPast: 'बीता (Past)',
-    yearStatusComing: 'आगामी (Coming)',
-    statusPassedBadge: 'पर्व संपन्न · बीता हुआ समय (Ago)',
-    statusUpcomingBadge: 'आगामी पर्व · शेष समय (Left)',
+    unitAgo: 'पूर्व',
+    unitLeft: 'शेष',
+    yearStatusPast: 'गत वर्ष',
+    yearStatusComing: 'आगामी',
+    statusPassedBadge: 'पर्व संपन्न · बीता हुआ समय',
+    statusUpcomingBadge: 'आगामी पर्व · शेष समय',
     pujaVidhiKicker: '०२ · पावन पूजा क्रम',
     pujaVidhiTitle: 'करवा चौथ पूजा विधि — चरणबद्ध मार्गदर्शिका',
     pujaVidhiSubtitle:
@@ -308,13 +316,13 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     wishesKicker: '०६ · शुभकामना संदेश एवं ग्रीटिंग कार्ड स्टूडियो',
     wishesTitle: 'करवा चौथ शुभकामनाएँ एवं शेयर करने योग्य कार्ड',
     wishesSubtitle:
-      'कार्ड की प्रत्येक पंक्ति को अपनी पसंद से बदलें, Vertical (खड़ा) या Horizontal (आड़ा) आकार चुनें और अपनी भाषा में PNG कार्ड डाउनलोड करें।',
+      'कार्ड की प्रत्येक पंक्ति को अपनी पसंद से बदलें, खड़ा या आड़ा आकार चुनें और अपनी भाषा में कार्ड डाउनलोड करें।',
     studioHeading: 'कार्ड की प्रत्येक पंक्ति को संपादित करें',
     btnDownloadCard: 'कार्ड डाउनलोड करें',
     btnCopyCardText: 'टेक्स्ट कॉपी करें',
     btnShareCard: 'कार्ड शेयर करें',
     faqKicker: '०७ · महत्वपूर्ण प्रश्नोत्तर',
-    faqTitle: 'अक्सर पूछे जाने वाले प्रश्न (FAQ)',
+    faqTitle: 'अक्सर पूछे जाने वाले प्रश्न',
     faqSubtitle:
       'पंचांग मुहूर्त, बादल छाए रहने पर चन्द्र अर्घ्य नियम और स्वास्थ्य संबंधी उपयोगी जानकारी।',
     cardDefaults: {
@@ -332,6 +340,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   pa: {
     brandTitle: 'ਸ਼ੁਭ ਕਰਵਾ ਚੌਥ',
     langBarLabel: 'ਭਾਸ਼ਾ',
+    navTopPage: 'ਮੁੱਖ ਪੰਨਾ',
     navCountdown: 'ਕਾਊਂਟਡਾਊਨ',
     navPujaVidhi: 'ਪੂਜਾ ਵਿਧੀ',
     navSamagri: 'ਪੂਜਾ ਸਮੱਗਰੀ',
@@ -342,6 +351,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     heroTitle: 'ਸ਼ੁਭ ਕਰਵਾ ਚੌਥ — ਪਿਆਰ, ਸ਼ਰਧਾ ਅਤੇ ਅਟੁੱਟ ਸਾਥ ਦਾ ਪਵਿੱਤਰ ਤਿਉਹਾਰ',
     heroSubtitle:
       'ਸਵੇਰ ਦੀ ਸਰਗੀ ਦੀਆਂ ਅਸੀਸਾਂ ਤੋਂ ਲੈ ਕੇ ਰਾਤ ਨੂੰ ਛਾਨਣੀ ਅਤੇ ਦੀਵੇ ਦੀ ਲੋਅ ਵਿੱਚ ਚੰਨ ਵੇਖਣ ਤੱਕ—ਸਹੀ ਪੰਚਾਂਗ ਸਮਾਂ, ਪੂਜਾ ਵਿਧੀ ਅਤੇ ਵਧਾਈ ਕਾਰਡ।',
+    heroMantraText: '“ਕਰਕਚਤੁਰਥੀ ਵ੍ਰਤੰ ਸੁਖਸੌਭਾਗਯ ਸਮ੍ਰਿੱਧੀਦਾਯਕਮ”',
     heroMantraMeaning:
       'ਕਰਵਾ ਚੌਥ ਦਾ ਇਹ ਪਵਿੱਤਰ ਵਰਤ ਹਰ ਪਰਿਵਾਰ ਵਿੱਚ ਖੁਸ਼ਹਾਲੀ, ਚੰਗੀ ਸਿਹਤ, ਸਤਿਕਾਰ ਅਤੇ ਸਦੀਵੀ ਪਿਆਰ ਬਣਾਈ ਰੱਖੇ।',
     btnLiveCountdown: 'ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ ਵੇਖੋ',
@@ -353,7 +363,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     btnRingBell: 'ਘੰਟੀ ਵਜਾਓ',
     btnPausePetals: 'ਪੱਤੀਆਂ ਰੋਕੋ',
     btnPlayPetals: 'ਪੱਤੀਆਂ ਚਲਾਓ',
-    countdownKicker: '01 · ਪ੍ਰਮਾਣਿਤ ਪੰਚਾਂਗ ਅਤੇ ਚੰਦਰਮਾ ਮੁਹੂਰਤ',
+    countdownKicker: '੦੧ · ਪ੍ਰਮਾਣਿਤ ਪੰਚਾਂਗ ਅਤੇ ਚੰਦਰਮਾ ਮੁਹੂਰਤ',
     countdownTitle: 'ਕਰਵਾ ਚੌਥ ਚੰਦਰਮਾ ਅਤੇ ਤਿਉਹਾਰ ਕਾਊਂਟਡਾਊਨ',
     countdownSubtitle:
       'ਹੇਠਾਂ ਆਪਣਾ ਸਾਲ ਅਤੇ ਸ਼ਹਿਰ ਚੁਣੋ ਅਤੇ ਪੂਜਾ ਮੁਹੂਰਤ ਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਹੀ ਸਮਾਂ ਵੇਖੋ।',
@@ -363,38 +373,38 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     unitHours: 'ਘੰਟੇ',
     unitMinutes: 'ਮਿੰਟ',
     unitSeconds: 'ਸਕਿੰਟ',
-    unitAgo: 'ਪਹਿਲਾਂ (Ago)',
-    unitLeft: 'ਬਾਕੀ (Left)',
-    yearStatusPast: 'ਬੀਤਿਆ (Past)',
-    yearStatusComing: 'ਆਉਣ ਵਾਲਾ (Coming)',
-    statusPassedBadge: 'ਤਿਉਹਾਰ ਸੰਪੰਨ · ਬੀਤਿਆ ਸਮਾਂ (Ago)',
-    statusUpcomingBadge: 'ਆਉਣ ਵਾਲਾ ਤਿਉਹਾਰ · ਬਾਕੀ ਸਮਾਂ (Left)',
-    pujaVidhiKicker: '02 · ਪਵਿੱਤਰ ਪੂਜਾ ਵਿਧੀ',
+    unitAgo: 'ਪਹਿਲਾਂ',
+    unitLeft: 'ਬਾਕੀ',
+    yearStatusPast: 'ਬੀਤਿਆ',
+    yearStatusComing: 'ਆਉਣ ਵਾਲਾ',
+    statusPassedBadge: 'ਤਿਉਹਾਰ ਸੰਪੰਨ · ਬੀਤਿਆ ਸਮਾਂ',
+    statusUpcomingBadge: 'ਆਉਣ ਵਾਲਾ ਤਿਉਹਾਰ · ਬਾਕੀ ਸਮਾਂ',
+    pujaVidhiKicker: '੦੨ · ਪਵਿੱਤਰ ਪੂਜਾ ਵਿਧੀ',
     pujaVidhiTitle: 'ਕਰਵਾ ਚੌਥ ਪੂਜਾ ਵਿਧੀ — ਕਦਮ-ਦਰ-ਕਦਮ ਗਾਈਡ',
     pujaVidhiSubtitle:
-      'ਸਵੇਰ ਦੀ ਸਰਗੀ ਤੋਂ ਲੈ ਕੇ ਸ਼ਾਮ ਦੀ ਕਥਾ ਅਤੇ ਰਾਤ ਨੂੰ ਚੰਨ ਨੂੰ ਅਰਘ ਦੇਣ ਤੱਕ ਦੇ 6 ਪੜਾਅ।',
-    samagriKicker: '03 · ਪੂਜਾ ਥਾਲੀ ਦੀ ਤਿਆਰੀ',
+      'ਸਵੇਰ ਦੀ ਸਰਗੀ ਤੋਂ ਲੈ ਕੇ ਸ਼ਾਮ ਦੀ ਕਥਾ ਅਤੇ ਰਾਤ ਨੂੰ ਚੰਨ ਨੂੰ ਅਰਘ ਦੇਣ ਤੱਕ ਦੇ ੬ ਪੜਾਅ।',
+    samagriKicker: '੦੩ · ਪੂਜਾ ਥਾਲੀ ਦੀ ਤਿਆਰੀ',
     samagriTitle: 'ਕਰਵਾ ਚੌਥ ਪੂਜਾ ਸਮੱਗਰੀ ਚੈੱਕਲਿਸਟ',
     samagriSubtitle:
       'ਆਪਣੀ ਪੂਜਾ ਸਮੱਗਰੀ ਤਿਆਰ ਕਰਦੇ ਸਮੇਂ ਕਿਸੇ ਵੀ ਆਈਟਮ ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਟਿੱਕ ਲਗਾਓ।',
-    sargiKicker: '04 · ਸਰਗੀ ਅਤੇ ਵਰਤ ਦੀ ਤਿਆਰੀ',
+    sargiKicker: '੦੪ · ਸਰਗੀ ਅਤੇ ਵਰਤ ਦੀ ਤਿਆਰੀ',
     sargiTitle: 'ਸਰਗੀ ਅਤੇ ਵਰਤ ਗਾਈਡ',
     sargiSubtitle:
       'ਸੂਰਜ ਚੜ੍ਹਨ ਤੋਂ ਪਹਿਲਾਂ ਲਈ ਜਾਣ ਵਾਲੀ ਸਰਗੀ ਸੱਸ ਮਾਂ ਦੇ ਪਿਆਰ ਅਤੇ ਦਿਨ ਭਰ ਦੀ ਊਰਜਾ ਦਾ ਪ੍ਰਤੀਕ ਹੈ।',
-    ritualsKicker: '05 · ਚੰਨ ਵੇਖਣ ਅਤੇ ਛਾਨਣੀ ਦੀ ਰਸਮ',
+    ritualsKicker: '੦੫ · ਚੰਨ ਵੇਖਣ ਅਤੇ ਛਾਨਣੀ ਦੀ ਰਸਮ',
     ritualsTitle: 'ਚੰਨ ਵੇਖਣ ਅਤੇ ਛਾਨਣੀ ਰਸਮ ਦੀ ਗਾਈਡ',
     ritualsSubtitle:
-      'ਹੇਠਾਂ ਦਿੱਤੇ 4 ਪੜਾਵਾਂ ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਛਾਨਣੀ ਰਾਹੀਂ ਚੰਨ ਵੇਖਣ ਦੀ ਰਸਮ ਵੇਖੋ।',
-    wishesKicker: '06 · ਵਧਾਈ ਸੰਦੇਸ਼ ਅਤੇ ਕਾਰਡ ਸਟੂਡੀਓ',
+      'ਹੇਠਾਂ ਦਿੱਤੇ ੪ ਪੜਾਵਾਂ ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਛਾਨਣੀ ਰਾਹੀਂ ਚੰਨ ਵੇਖਣ ਦੀ ਰਸਮ ਵੇਖੋ।',
+    wishesKicker: '੦੬ · ਵਧਾਈ ਸੰਦੇਸ਼ ਅਤੇ ਕਾਰਡ ਸਟੂਡੀਓ',
     wishesTitle: 'ਕਰਵਾ ਚੌਥ ਦੀਆਂ ਵਧਾਈਆਂ ਅਤੇ ਗ੍ਰੀਟਿੰਗ ਕਾਰਡ',
     wishesSubtitle:
-      'ਕਾਰਡ ਦੀ ਹਰ ਲਾਈਨ ਨੂੰ ਆਪਣੀ ਮਰਜ਼ੀ ਨਾਲ ਬਦਲੋ ਅਤੇ Vertical ਜਾਂ Horizontal ਸਾਈਜ਼ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰੋ।',
+      'ਕਾਰਡ ਦੀ ਹਰ ਲਾਈਨ ਨੂੰ ਆਪਣੀ ਮਰਜ਼ੀ ਨਾਲ ਬਦਲੋ ਅਤੇ ਲੰਬਵੇਂ ਜਾਂ ਲੇਟਵੇਂ ਸਾਈਜ਼ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰੋ।',
     studioHeading: 'ਕਾਰਡ ਦੀ ਹਰ ਲਾਈਨ ਬਦਲੋ',
     btnDownloadCard: 'ਕਾਰਡ ਡਾਊਨਲੋਡ ਕਰੋ',
     btnCopyCardText: 'ਟੈਕਸਟ ਕਾਪੀ ਕਰੋ',
     btnShareCard: 'ਕਾਰਡ ਸ਼ੇਅਰ ਕਰੋ',
-    faqKicker: '07 · ਜ਼ਰੂਰੀ ਸਵਾਲ-ਜਵਾਬ',
-    faqTitle: 'ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ (FAQ)',
+    faqKicker: '੦੭ · ਜ਼ਰੂਰੀ ਸਵਾਲ-ਜਵਾਬ',
+    faqTitle: 'ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ',
     faqSubtitle: 'ਪੰਚਾਂਗ ਸਮੇਂ ਅਤੇ ਵਰਤ ਦੇ ਨਿਯਮਾਂ ਬਾਰੇ ਪੂਰੀ ਜਾਣਕਾਰੀ।',
     cardDefaults: {
       headerLine: 'ਸ਼ੁਭ ਕਰਵਾ ਚੌਥ · ਪਿਆਰ ਭਰੀਆਂ ਅਸੀਸਾਂ',
@@ -411,6 +421,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   gu: {
     brandTitle: 'શુભ કરવા ચોથ',
     langBarLabel: 'ભાષા',
+    navTopPage: 'મુખ્ય પૃષ્ઠ',
     navCountdown: 'કાઉન્ટડાઉન',
     navPujaVidhi: 'પૂજા વિધિ',
     navSamagri: 'પૂજા સામગ્રી',
@@ -421,18 +432,19 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     heroTitle: 'શુભ કરવા ચોથ — પ્રેમ, સમર્પણ અને અખંડ સૌભાગ્યનું પવિત્ર પર્વ',
     heroSubtitle:
       'વહેલી સવારની સરગીના આશીર્વાદથી લઈને રાત્રે ચારણી અને દીવાની જ્યોતથી ચંદ્ર દર્શન સુધી—પ્રમાણિત પંચાંગ સમય, પૂજા વિધિ અને શુભેચ્છા કાર્ડ.',
+    heroMantraText: '“કરકચતુર્થી વ્રતં સુખસૌભાગ્ય સમૃદ્ધિદાયકમ્”',
     heroMantraMeaning:
       'કરક ચતુર્થીનું આ પવિત્ર વ્રત દરેક પરિવારમાં સુખ, ઉત્તમ સ્વાસ્થ્ય અને અટૂટ પ્રેમ જાળવી રાખે.',
     btnLiveCountdown: 'ચંદ્રોદય કાઉન્ટડાઉન જુઓ',
     btnSamagriChecklist: 'પૂજા સામગ્રી યાદી',
     btnLightDiyas: 'દીવા પ્રગટાવો',
-    btnDimDiyas: 'દીવા मंद કરો',
+    btnDimDiyas: 'દીવા શાંત કરો',
     statusDiyasLit: 'પવિત્ર દીવા પ્રગટેલા છે',
     statusDiyasDimmed: 'દીવા આછી જ્યોતમાં છે',
     btnRingBell: 'ઘંટડી વગાડો',
     btnPausePetals: 'પાંખડીઓ રોકો',
     btnPlayPetals: 'પાંખડીઓ શરૂ કરો',
-    countdownKicker: '01 · પ્રમાણિત પંચાંગ અને ચંદ્રોદય મુહૂર્ત',
+    countdownKicker: '૦૧ · પ્રમાણિત પંચાંગ અને ચંદ્રોદય મુહૂર્ત',
     countdownTitle: 'કરવા ચોથ ચંદ્રોદય અને પર્વ કાઉન્ટડાઉન',
     countdownSubtitle:
       'નીચે વર્ષ અને તમારું શહેર પસંદ કરીને પૂજા મુહૂર્ત અને ચંદ્ર ઉદયનો સાચો સમય જુઓ.',
@@ -442,38 +454,38 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     unitHours: 'કલાક',
     unitMinutes: 'મિનિટ',
     unitSeconds: 'સેકન્ડ',
-    unitAgo: 'પહેલાં (Ago)',
-    unitLeft: 'બાકી (Left)',
-    yearStatusPast: 'વીતેલું (Past)',
-    yearStatusComing: 'આગામી (Coming)',
-    statusPassedBadge: 'પર્વ સંપન્ન · વીતેલો સમય (Ago)',
-    statusUpcomingBadge: 'આગામી પર્વ · બાકી સમય (Left)',
-    pujaVidhiKicker: '02 · પવિત્ર પૂજા ક્રમ',
+    unitAgo: 'પહેલાં',
+    unitLeft: 'બાકી',
+    yearStatusPast: 'વીતેલું',
+    yearStatusComing: 'આગામી',
+    statusPassedBadge: 'પર્વ સંપન્ન · વીતેલો સમય',
+    statusUpcomingBadge: 'આગામી પર્વ · બાકી સમય',
+    pujaVidhiKicker: '૦૨ · પવિત્ર પૂજા ક્રમ',
     pujaVidhiTitle: 'કરવા ચોથ પૂજા વિધિ — સંપૂર્ણ માર્ગદર્શિકા',
     pujaVidhiSubtitle:
-      'સવારની સરગી સંકલ્પથી લઈને સાંજની વ્રત કથા અને રાત્રિ ચંદ્ર અર્ઘ્ય સુધીના 6 ચરણ.',
-    samagriKicker: '03 · પૂજા થાળી તૈયારી',
+      'સવારની સરગી સંકલ્પથી લઈને સાંજની વ્રત કથા અને રાત્રિ ચંદ્ર અર્ઘ્ય સુધીના ૬ ચરણ.',
+    samagriKicker: '૦૩ · પૂજા થાળી તૈયારી',
     samagriTitle: 'કરવા ચોથ પૂજા સામગ્રી ચેકલિસ્ટ',
     samagriSubtitle:
       'કોઈપણ સામગ્રી પર ક્લિક કરીને ટિક કરો અથવા તમારી કૌટુંબિક સામગ્રી ઉમેરો.',
-    sargiKicker: '04 · સરગી અને સ્વાસ્થ્ય માર્ગદર્શન',
+    sargiKicker: '૦૪ · સરગી અને સ્વાસ્થ્ય માર્ગદર્શન',
     sargiTitle: 'સરગી અને વ્રત તૈયારી માર્ગદર્શિકા',
     sargiSubtitle:
       'સૂર્યોદય પહેલાં લેવામાં આવતી સરગી સાસુમાના આશીર્વાદ અને દિવસભરની ઊર્જાનું પ્રતીક છે.',
-    ritualsKicker: '05 · ચંદ્ર દર્શન અને ચારણી વિધિ',
+    ritualsKicker: '૦૫ · ચંદ્ર દર્શન અને ચારણી વિધિ',
     ritualsTitle: 'ચંદ્ર દર્શન અને પરંપરાગત ચારણી વિધિ',
     ritualsSubtitle:
-      'નીચેના 4 પવિત્ર ચરણો પર ક્લિક કરીને ચારણી અને દીવાથી ચંદ્ર દર્શનનું દૃશ્ય જુઓ.',
-    wishesKicker: '06 · શુભેચ્છા સંદેશ અને કાર્ડ સ્ટુડિયો',
+      'નીચેના ૪ પવિત્ર ચરણો પર ક્લિક કરીને ચારણી અને દીવાથી ચંદ્ર દર્શનનું દૃશ્ય જુઓ.',
+    wishesKicker: '૦૬ · શુભેચ્છા સંદેશ અને કાર્ડ સ્ટુડિયો',
     wishesTitle: 'કરવા ચોથની શુભેચ્છાઓ અને ગ્રીટિંગ કાર્ડ્સ',
     wishesSubtitle:
-      'કાર્ડની દરેક લાઇન બદલો અને Vertical કે Horizontal સાઇઝમાં PNG કાર્ડ ડાઉનਲોડ કરો.',
+      'કાર્ડની દરેક લાઇન બદલો અને ઊભા કે આડા સાઇઝમાં કાર્ડ ડાઉનલોડ કરો.',
     studioHeading: 'કાર્ડની દરેક લાઇન સંપાદિત કરો',
     btnDownloadCard: 'કાર્ડ ડાઉનલોડ કરો',
     btnCopyCardText: 'ટેક્સ્ટ કોપી કરો',
     btnShareCard: 'કાર્ડ શેર કરો',
-    faqKicker: '07 · મહત્વપૂર્ણ પ્રશ્નોત્તરી',
-    faqTitle: 'વારંવાર પૂછાતા પ્રશ્નો (FAQ)',
+    faqKicker: '૦૭ · મહત્વપૂર્ણ પ્રશ્નોત્તરી',
+    faqTitle: 'વારંવાર પૂછાતા પ્રશ્નો',
     faqSubtitle: 'પંચાંગ સમય અને વ્રતના નિયમો વિશે પ્રમાણિત માહિતી.',
     cardDefaults: {
       headerLine: 'શુભ કરવા ચોથ · મંગલ આશીર્વાદ',
@@ -490,6 +502,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
   mr: {
     brandTitle: 'शुभ करवा चौथ',
     langBarLabel: 'भाषा',
+    navTopPage: 'मुख्य पृष्ठ',
     navCountdown: 'काउंटडाउन',
     navPujaVidhi: 'पूजा विधी',
     navSamagri: 'पूजा साहित्य',
@@ -500,6 +513,7 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     heroTitle: 'शुभ करवा चौथ — प्रेम, भक्ती आणि अखंड सौभाग्याचा पावन सण',
     heroSubtitle:
       'पहाटेच्या सरगीच्या आशीर्वादापासून ते रात्री चाळणी आणि दिव्याच्या ज्योतीने चंद्र दर्शनापर्यंत—अचूक पंचांग वेळ, संपूर्ण पूजा विधी आणि शुभेच्छा कार्ड्स.',
+    heroMantraText: '“करकचतुर्थी व्रतं सुखसौभाग्य समृद्धिदायकम्”',
     heroMantraMeaning:
       'करक चतुर्थीचे हे पावन व्रत प्रत्येक कुटुंबात सुख, उत्तम आरोग्य आणि अखंड जिव्हाळा टिकवून ठेवो.',
     btnLiveCountdown: 'चंद्रोदय काउंटडाउन पहा',
@@ -514,19 +528,19 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     countdownKicker: '०१ · प्रमाणित पंचांग आणि चंद्रोदय मुहूर्त',
     countdownTitle: 'करवा चौथ चंद्रोदय आणि सण काउंटडाउन',
     countdownSubtitle:
-      'खालील वर्ष आणि शहर निवडून भारतीय प्रमाणवेळ (IST) व तुमच्या स्थानिक वेळेनुसार पूजा मुहूर्त आणि चंद्रोदय वेळ पहा.',
+      'खालील वर्ष आणि शहर निवडून भारतीय प्रमाणवेळ व तुमच्या स्थानिक वेळेनुसार पूजा मुहूर्त आणि चंद्रोदय वेळ पहा.',
     selectYearLabel: 'सणाचे वर्ष निवडा',
     selectCityLabel: 'चंद्रोदय वेळेसाठी शहर निवडा',
     unitDays: 'दिवस',
     unitHours: 'तास',
     unitMinutes: 'मिनिटे',
     unitSeconds: 'सेकंद',
-    unitAgo: 'पूर्वी (Ago)',
-    unitLeft: 'बाकी (Left)',
-    yearStatusPast: 'मागील (Past)',
-    yearStatusComing: 'येणारे (Coming)',
-    statusPassedBadge: 'सण संपन्न · उलटून गेलेला वेळ (Ago)',
-    statusUpcomingBadge: 'येणारा सण · उरलेला वेळ (Left)',
+    unitAgo: 'पूर्वी',
+    unitLeft: 'बाकी',
+    yearStatusPast: 'मागील',
+    yearStatusComing: 'आगामी',
+    statusPassedBadge: 'सण संपन्न · उलटून गेलेला वेळ',
+    statusUpcomingBadge: 'येणारा सण · उरलेला वेळ',
     pujaVidhiKicker: '०२ · पावन पूजा क्रम',
     pujaVidhiTitle: 'करवा चौथ पूजा विधी — टप्प्याटप्प्याने माहिती',
     pujaVidhiSubtitle:
@@ -546,13 +560,13 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     wishesKicker: '०६ · शुभेच्छा संदेश आणि ग्रीटिंग कार्ड स्टुडिओ',
     wishesTitle: 'करवा चौथ शुभेच्छा आणि शेअर करण्यायोग्य कार्ड्स',
     wishesSubtitle:
-      'कार्डची प्रत्येक ओळ तुमच्या आवडीनुसार बदला आणि Vertical किंवा Horizontal आकारात PNG कार्ड डाउनलोड करा.',
+      'कार्डची प्रत्येक ओळ तुमच्या आवडीनुसार बदला आणि उभ्या किंवा आडव्या आकारात कार्ड डाउनलोड करा.',
     studioHeading: 'कार्डची प्रत्येक ओळ संपादित करा',
     btnDownloadCard: 'कार्ड डाउनलोड करा',
     btnCopyCardText: 'टेक्स्ट कॉपी करा',
     btnShareCard: 'कार्ड शेअर करा',
     faqKicker: '०७ · महत्त्वाचे प्रश्नोत्तरे',
-    faqTitle: 'नेहमी विचारले जाणारे प्रश्न (FAQ)',
+    faqTitle: 'नेहमी विचारले जाणारे प्रश्न',
     faqSubtitle: 'पंचांग वेळ आणि व्रताच्या नियमांबद्दल सविस्तर माहिती.',
     cardDefaults: {
       headerLine: 'शुभ करवा चौथ · मंगलमय आशीर्वाद',
@@ -566,3 +580,4 @@ export const SITE_TRANSLATIONS: Record<SupportedLanguage, SiteTranslation> = {
     },
   },
 };
+

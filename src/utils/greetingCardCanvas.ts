@@ -104,8 +104,8 @@ function drawTopLotusOrnament(
   theme: CardThemeConfig
 ): number {
   const isLightTheme = theme.id === 'ivory-pichwai';
-  const scale = isVertical ? 0.68 : 0.74;
-  const wingOuterSpan = isVertical ? 205 : 240;
+  const scale = isVertical ? 0.42 : 0.45;
+  const wingOuterSpan = isVertical ? 115 : 135;
 
   // In reference coordinates (90x60 lotus):
   // Top apex is at y = -52, bottom lobes reach y = +6.5, confluence is at y = 0.
@@ -359,7 +359,7 @@ export function renderGreetingCardToCanvas(
     : [];
 
   // Calculate exact content height so rows sit cozily together just like the preview
-  const emblemSize = isVertical ? 42 : 45;
+  const emblemSize = isVertical ? 26 : 28;
   const headerLineH = 16;
   const greetingLineH = isVertical ? 33 : 34;
   const titleLineH = 25;
@@ -560,7 +560,7 @@ export function renderGreetingCardToCanvas(
   ctx.restore();
 }
 
-export function downloadGreetingCardImage(options: {
+export interface GreetingCardRenderOptions {
   headerLine: string;
   greetingLine: string;
   titleLine: string;
@@ -570,7 +570,9 @@ export function downloadGreetingCardImage(options: {
   footerLine: string;
   theme: CardThemeConfig;
   orientation: CardOrientation;
-}): void {
+}
+
+export function downloadGreetingCardImage(options: GreetingCardRenderOptions): void {
   const canvas = document.createElement('canvas');
   renderGreetingCardToCanvas(canvas, options);
 
@@ -586,3 +588,89 @@ export function downloadGreetingCardImage(options: {
   link.click();
   document.body.removeChild(link);
 }
+
+export function generateGreetingCardBlob(
+  options: GreetingCardRenderOptions
+): Promise<Blob | null> {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    renderGreetingCardToCanvas(canvas, options);
+    if (canvas.toBlob) {
+      canvas.toBlob((blob) => resolve(blob), 'image/png', 1.0);
+    } else {
+      try {
+        const dataUrl = canvas.toDataURL('image/png');
+        const byteString = atob(dataUrl.split(',')[1]);
+        const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        resolve(new Blob([ab], { type: mimeString }));
+      } catch {
+        resolve(null);
+      }
+    }
+  });
+}
+
+export async function shareGreetingCardImage(
+  options: GreetingCardRenderOptions,
+  cardTitle: string
+): Promise<'shared' | 'copied-image' | 'aborted' | 'unsupported'> {
+  const blob = await generateGreetingCardBlob(options);
+  if (!blob) return 'unsupported';
+
+  const safeSlug = (options.greetingLine.trim() || 'karwa-chauth')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  const fileName = `happy-karwa-chauth-${options.orientation}-${safeSlug || 'card'}.png`;
+  const file = new File([blob], fileName, {
+    type: 'image/png',
+    lastModified: Date.now(),
+  });
+
+  if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    const shareDataWithFile: ShareData = {
+      files: [file],
+      title: cardTitle,
+    };
+
+    const canShareFile =
+      typeof navigator.canShare === 'function'
+        ? navigator.canShare({ files: [file] })
+        : true;
+
+    if (canShareFile) {
+      try {
+        await navigator.share(shareDataWithFile);
+        return 'shared';
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return 'aborted';
+        }
+      }
+    }
+  }
+
+  // Fallback for desktop browsers without file share sheet: copy the actual PNG image to clipboard
+  if (
+    typeof navigator !== 'undefined' &&
+    navigator.clipboard &&
+    typeof navigator.clipboard.write === 'function' &&
+    typeof ClipboardItem !== 'undefined'
+  ) {
+    try {
+      const item = new ClipboardItem({ 'image/png': blob });
+      await navigator.clipboard.write([item]);
+      return 'copied-image';
+    } catch {
+      // ignore and fall through
+    }
+  }
+
+  return 'unsupported';
+}
+

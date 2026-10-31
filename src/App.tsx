@@ -52,6 +52,7 @@ import {
   CardOrientation,
   renderGreetingCardToCanvas,
   downloadGreetingCardImage,
+  shareGreetingCardImage,
 } from './utils/greetingCardCanvas';
 import {
   copyTextReliable,
@@ -59,7 +60,7 @@ import {
   playSacredBellChime,
 } from './utils/clipboardAndAudio';
 
-const STORAGE_KEY_SAMAGRI = 'karwa_chauth_samagri_checked_v2';
+const STORAGE_KEY_SAMAGRI = 'karwa_chauth_samagri_checked_v3';
 const STORAGE_KEY_CUSTOM_SAMAGRI = 'karwa_chauth_custom_samagri_v1';
 
 interface CountdownState {
@@ -70,6 +71,204 @@ interface CountdownState {
   isPast: boolean;
   targetLabel: string;
   targetDateDisplay: string;
+}
+
+const DATE_TIME_TRANSLATIONS: Record<
+  Exclude<SupportedLanguage, 'en'>,
+  Array<[RegExp, string]>
+> = {
+  bn: [
+    [/\bJanuary\b/g, 'জানুয়ারি'],
+    [/\bFebruary\b/g, 'ফেব্রুয়ারি'],
+    [/\bMarch\b/g, 'মার্চ'],
+    [/\bApril\b/g, 'এপ্রিল'],
+    [/\bMay\b/g, 'মে'],
+    [/\bJune\b/g, 'জুন'],
+    [/\bJuly\b/g, 'জুলাই'],
+    [/\bAugust\b/g, 'আগস্ট'],
+    [/\bSeptember\b/g, 'সেপ্টেম্বর'],
+    [/\bOctober\b/g, 'অক্টোবর'],
+    [/\bNovember\b/g, 'নভেম্বর'],
+    [/\bDecember\b/g, 'ডিসেম্বর'],
+    [/\bJan\b/g, 'জানু'],
+    [/\bFeb\b/g, 'ফেব্রু'],
+    [/\bMar\b/g, 'মার্চ'],
+    [/\bApr\b/g, 'এপ্রিল'],
+    [/\bAug\b/g, 'আগস্ট'],
+    [/\bSep\b/g, 'সেপ্টে'],
+    [/\bOct\b/g, 'অক্টো'],
+    [/\bNov\b/g, 'নভে'],
+    [/\bDec\b/g, 'ডিসে'],
+    [/\bSunday\b/g, 'রবিবার'],
+    [/\bMonday\b/g, 'সোমবার'],
+    [/\bTuesday\b/g, 'মঙ্গলবার'],
+    [/\bWednesday\b/g, 'বুধবার'],
+    [/\bThursday\b/g, 'বৃহস্পতিবার'],
+    [/\bFriday\b/g, 'শুক্রবার'],
+    [/\bSaturday\b/g, 'শনিবার'],
+    [/\bhrs\b/g, 'ঘণ্টা'],
+    [/\bhr\b/g, 'ঘণ্টা'],
+    [/\bmins\b/g, 'মিনিট'],
+    [/\bmin\b/g, 'মিনিট'],
+    [/\bAM\b/g, 'সকাল'],
+    [/\bPM\b/g, 'সন্ধ্যা/রাত'],
+    [/\bIST\b/g, 'ভারতীয় সময়'],
+  ],
+  hi: [
+    [/\bJanuary\b/g, 'जनवरी'],
+    [/\bFebruary\b/g, 'फ़रवरी'],
+    [/\bMarch\b/g, 'मार्च'],
+    [/\bApril\b/g, 'अप्रैल'],
+    [/\bMay\b/g, 'मई'],
+    [/\bJune\b/g, 'जून'],
+    [/\bJuly\b/g, 'जुलाई'],
+    [/\bAugust\b/g, 'अगस्त'],
+    [/\bSeptember\b/g, 'सितंबर'],
+    [/\bOctober\b/g, 'अक्टूबर'],
+    [/\bNovember\b/g, 'नवंबर'],
+    [/\bDecember\b/g, 'दिसंबर'],
+    [/\bJan\b/g, 'जन॰'],
+    [/\bFeb\b/g, 'फ़र॰'],
+    [/\bMar\b/g, 'मार्च'],
+    [/\bApr\b/g, 'अप्रैल'],
+    [/\bAug\b/g, 'अग॰'],
+    [/\bSep\b/g, 'सित॰'],
+    [/\bOct\b/g, 'अक्टू॰'],
+    [/\bNov\b/g, 'नव॰'],
+    [/\bDec\b/g, 'दिस॰'],
+    [/\bSunday\b/g, 'रविवार'],
+    [/\bMonday\b/g, 'सोमवार'],
+    [/\bTuesday\b/g, 'मंगलवार'],
+    [/\bWednesday\b/g, 'बुधवार'],
+    [/\bThursday\b/g, 'गुरुवार'],
+    [/\bFriday\b/g, 'शुक्रवार'],
+    [/\bSaturday\b/g, 'शनिवार'],
+    [/\bhrs\b/g, 'घंटे'],
+    [/\bhr\b/g, 'घंटे'],
+    [/\bmins\b/g, 'मिनट'],
+    [/\bmin\b/g, 'मिनट'],
+    [/\bAM\b/g, 'प्रातः'],
+    [/\bPM\b/g, 'सायं/रात्रि'],
+    [/\bIST\b/g, 'भारतीय समय'],
+  ],
+  pa: [
+    [/\bJanuary\b/g, 'ਜਨਵਰੀ'],
+    [/\bFebruary\b/g, 'ਫ਼ਰਵਰੀ'],
+    [/\bMarch\b/g, 'ਮਾਰਚ'],
+    [/\bApril\b/g, 'ਅਪ੍ਰੈਲ'],
+    [/\bMay\b/g, 'ਮਈ'],
+    [/\bJune\b/g, 'ਜੂਨ'],
+    [/\bJuly\b/g, 'ਜੁਲਾਈ'],
+    [/\bAugust\b/g, 'ਅਗਸਤ'],
+    [/\bSeptember\b/g, 'ਸਤੰਬਰ'],
+    [/\bOctober\b/g, 'ਅਕਤੂਬਰ'],
+    [/\bNovember\b/g, 'ਨਵੰਬਰ'],
+    [/\bDecember\b/g, 'ਦਸੰਬਰ'],
+    [/\bJan\b/g, 'ਜਨ'],
+    [/\bFeb\b/g, 'ਫ਼ਰ'],
+    [/\bMar\b/g, 'ਮਾਰਚ'],
+    [/\bApr\b/g, 'ਅਪ੍ਰੈਲ'],
+    [/\bAug\b/g, 'ਅਗ'],
+    [/\bSep\b/g, 'ਸਤੰ'],
+    [/\bOct\b/g, 'ਅਕਤੂ'],
+    [/\bNov\b/g, 'ਨਵੰ'],
+    [/\bDec\b/g, 'ਦਸੰ'],
+    [/\bSunday\b/g, 'ਐਤਵਾਰ'],
+    [/\bMonday\b/g, 'ਸੋਮਵਾਰ'],
+    [/\bTuesday\b/g, 'ਮੰਗਲਵਾਰ'],
+    [/\bWednesday\b/g, 'ਬੁੱਧਵਾਰ'],
+    [/\bThursday\b/g, 'ਵੀਰਵਾਰ'],
+    [/\bFriday\b/g, 'ਸ਼ੁੱਕਰਵਾਰ'],
+    [/\bSaturday\b/g, 'ਸ਼ਨੀਵਾਰ'],
+    [/\bhrs\b/g, 'ਘੰਟੇ'],
+    [/\bhr\b/g, 'ਘੰਟੇ'],
+    [/\bmins\b/g, 'ਮਿੰਟ'],
+    [/\bmin\b/g, 'ਮਿੰਟ'],
+    [/\bAM\b/g, 'ਸਵੇਰੇ'],
+    [/\bPM\b/g, 'ਸ਼ਾਮ/ਰਾਤ'],
+    [/\bIST\b/g, 'ਭਾਰਤੀ ਸਮਾਂ'],
+  ],
+  gu: [
+    [/\bJanuary\b/g, 'જાન્યુઆરી'],
+    [/\bFebruary\b/g, 'ફેબ્રુઆરી'],
+    [/\bMarch\b/g, 'માર્ચ'],
+    [/\bApril\b/g, 'એપ્રિલ'],
+    [/\bMay\b/g, 'મે'],
+    [/\bJune\b/g, 'જૂન'],
+    [/\bJuly\b/g, 'જુલાઈ'],
+    [/\bAugust\b/g, 'ઓગસ્ટ'],
+    [/\bSeptember\b/g, 'સપ્ટેમ્બર'],
+    [/\bOctober\b/g, 'ઓક્ટોબર'],
+    [/\bNovember\b/g, 'નવેમ્બર'],
+    [/\bDecember\b/g, 'ડિસેમ્બર'],
+    [/\bJan\b/g, 'જાન્યુ'],
+    [/\bFeb\b/g, 'ફેબ્રુ'],
+    [/\bMar\b/g, 'માર્ચ'],
+    [/\bApr\b/g, 'એપ્રિલ'],
+    [/\bAug\b/g, 'ઓગ'],
+    [/\bSep\b/g, 'સપ્ટે'],
+    [/\bOct\b/g, 'ઓક્ટો'],
+    [/\bNov\b/g, 'નવે'],
+    [/\bDec\b/g, 'ડિસે'],
+    [/\bSunday\b/g, 'રવિવાર'],
+    [/\bMonday\b/g, 'સોમવાર'],
+    [/\bTuesday\b/g, 'મંગળવાર'],
+    [/\bWednesday\b/g, 'બુધવાર'],
+    [/\bThursday\b/g, 'ગુરુવાર'],
+    [/\bFriday\b/g, 'શુક્રવાર'],
+    [/\bSaturday\b/g, 'શનિવાર'],
+    [/\bhrs\b/g, 'કલાક'],
+    [/\bhr\b/g, 'કલાક'],
+    [/\bmins\b/g, 'મિનિટ'],
+    [/\bmin\b/g, 'મિનિટ'],
+    [/\bAM\b/g, 'સવારે'],
+    [/\bPM\b/g, 'સાંજે/રાત્રે'],
+    [/\bIST\b/g, 'ભારતીય સમય'],
+  ],
+  mr: [
+    [/\bJanuary\b/g, 'जानेवारी'],
+    [/\bFebruary\b/g, 'फेब्रुवारी'],
+    [/\bMarch\b/g, 'मार्च'],
+    [/\bApril\b/g, 'एप्रिल'],
+    [/\bMay\b/g, 'मे'],
+    [/\bJune\b/g, 'जून'],
+    [/\bJuly\b/g, 'जुलै'],
+    [/\bAugust\b/g, 'ऑगस्ट'],
+    [/\bSeptember\b/g, 'सप्टेंबर'],
+    [/\bOctober\b/g, 'ऑक्टोबर'],
+    [/\bNovember\b/g, 'नोव्हेंबर'],
+    [/\bDecember\b/g, 'डिसेंबर'],
+    [/\bJan\b/g, 'जाने'],
+    [/\bFeb\b/g, 'फेब्रु'],
+    [/\bMar\b/g, 'मार्च'],
+    [/\bApr\b/g, 'एप्रिल'],
+    [/\bAug\b/g, 'ऑग'],
+    [/\bSep\b/g, 'सप्टें'],
+    [/\bOct\b/g, 'ऑक्टो'],
+    [/\bNov\b/g, 'नोव्हें'],
+    [/\bDec\b/g, 'डिसें'],
+    [/\bSunday\b/g, 'रविवार'],
+    [/\bMonday\b/g, 'सोमवार'],
+    [/\bTuesday\b/g, 'मंगळवार'],
+    [/\bWednesday\b/g, 'बुधवार'],
+    [/\bThursday\b/g, 'गुरुवार'],
+    [/\bFriday\b/g, 'शुक्रवार'],
+    [/\bSaturday\b/g, 'शनिवार'],
+    [/\bhrs\b/g, 'तास'],
+    [/\bhr\b/g, 'तास'],
+    [/\bmins\b/g, 'मिनिटे'],
+    [/\bmin\b/g, 'मिनिटे'],
+    [/\bAM\b/g, 'सकाळी'],
+    [/\bPM\b/g, 'सायं/रात्री'],
+    [/\bIST\b/g, 'भारतीय वेळ'],
+  ],
+};
+
+function localizeDateTimeText(text: string, lang: SupportedLanguage): string {
+  if (lang === 'en' || !text) return text;
+  const rules = DATE_TIME_TRANSLATIONS[lang];
+  if (!rules) return text;
+  return rules.reduce((acc, [regex, replacement]) => acc.replace(regex, replacement), text);
 }
 
 export default function App() {
@@ -429,8 +628,9 @@ export default function App() {
     const prevData = getFestivalYearData(minConnectedPastYear);
     const upData = getFestivalYearData(upcomingFestivalYear);
     const nextData = getFestivalYearData(upcomingFestivalYear + 1);
-    return `${prevData.year}: ${prevData.shortDate} (${t.yearStatusPast}) · ★ ${upData.year}: ${upData.dateFormatted} (${t.yearStatusComing}) · ${nextData.year}: ${nextData.shortDate} (${t.yearStatusComing})`;
-  }, [minConnectedPastYear, upcomingFestivalYear, t.yearStatusPast, t.yearStatusComing]);
+    const raw = `${prevData.year}: ${prevData.shortDate} (${t.yearStatusPast}) · ★ ${upData.year}: ${upData.dateFormatted} (${t.yearStatusComing}) · ${nextData.year}: ${nextData.shortDate} (${t.yearStatusComing})`;
+    return localizeDateTimeText(raw, lang);
+  }, [minConnectedPastYear, upcomingFestivalYear, t.yearStatusPast, t.yearStatusComing, lang]);
 
   const countdown = useMemo<CountdownState>(() => {
     const diff = targetTimestamp - nowMs;
@@ -438,7 +638,10 @@ export default function App() {
     const absDiff = Math.abs(diff);
 
     const label = `${lc.moonriseTargetPrefix} ${localizedCityMeta.city} · ${t.brandTitle} ${selectedYear}`;
-    const dateDisplay = `${activeYearData.dateFormatted} (${activeYearData.dayOfWeek}) · ${activeCityYearTimings.moonriseDisplay}`;
+    const dateDisplay = localizeDateTimeText(
+      `${activeYearData.dateFormatted} (${activeYearData.dayOfWeek}) · ${activeCityYearTimings.moonriseDisplay}`,
+      lang
+    );
 
     const totalSeconds = Math.floor(absDiff / 1000);
     const days = Math.floor(totalSeconds / 86400);
@@ -464,29 +667,37 @@ export default function App() {
     lc,
     localizedCityMeta,
     t.brandTitle,
+    lang,
   ]);
 
   const userLocalMoonriseInfo = useMemo(() => {
+    const localeMap: Record<SupportedLanguage, string> = {
+      en: 'en-US',
+      bn: 'bn-IN',
+      hi: 'hi-IN',
+      pa: 'pa-IN',
+      gu: 'gu-IN',
+      mr: 'mr-IN',
+    };
     try {
       const tz =
-        Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local Time';
-      const formatted = new Intl.DateTimeFormat('en-US', {
+        Intl.DateTimeFormat().resolvedOptions().timeZone || lc.localTimeLabel;
+      const formatted = new Intl.DateTimeFormat(localeMap[lang] || 'en-US', {
         weekday: 'short',
         month: 'short',
         day: 'numeric',
         year: 'numeric',
         hour: 'numeric',
         minute: '2-digit',
-        timeZoneName: 'short',
       }).format(new Date(targetTimestamp));
       return { tz, formatted };
     } catch {
       return {
-        tz: 'Local Time',
-        formatted: activeYearData.defaultMoonriseIST,
+        tz: lc.localTimeLabel,
+        formatted: localizeDateTimeText(activeYearData.defaultMoonriseIST, lang),
       };
     }
-  }, [targetTimestamp, activeYearData]);
+  }, [targetTimestamp, activeYearData, lang, lc.localTimeLabel]);
 
   // 5. Puja Vidhi Interactive Active Step & Full Vrat Katha Reader
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
@@ -534,12 +745,7 @@ export default function App() {
       } catch {
         // ignore
       }
-      return {
-        'karwa-pot': true,
-        'chhalni': true,
-        'puja-thali': true,
-        'diya-ghee': true,
-      };
+      return {};
     }
   );
 
@@ -655,29 +861,30 @@ export default function App() {
 
   // 7. Interactive Chhalni Moon Simulator State
   const [viewThroughChhalni, setViewThroughChhalni] = useState<boolean>(true);
-  const [activeChhalniPhase, setActiveChhalniPhase] = useState<number>(1);
+  const [activeChhalniPhase, setActiveChhalniPhase] = useState<number>(0);
 
   // 8. ALL-ROW EDITABLE Greeting Card Studio & Wishes Library State
+  const initialWish = FULL_LANGUAGE_CONTENT.en.wishesList[0];
   const [cardHeaderLine, setCardHeaderLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.headerLine
+    initialWish.headerLine
   );
   const [cardGreetingLine, setCardGreetingLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.greetingLine
+    initialWish.greetingLine
   );
   const [cardTitleLine, setCardTitleLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.titleLine
+    initialWish.title
   );
   const [cardBodyMessage, setCardBodyMessage] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.bodyMessage
+    initialWish.message
   );
   const [cardClosingLine, setCardClosingLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.closingLine
+    initialWish.closing
   );
   const [cardSignatureLine, setCardSignatureLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.signatureLine
+    initialWish.signatureLine
   );
   const [cardFooterLine, setCardFooterLine] = useState<string>(
-    SITE_TRANSLATIONS.en.cardDefaults.footerLine
+    initialWish.footerLine
   );
 
   const [cardOrientation, setCardOrientation] =
@@ -691,23 +898,44 @@ export default function App() {
   );
   const [editingWishId, setEditingWishId] = useState<string | null>(null);
   const [wishCategoryKey, setWishCategoryKey] = useState<
-    'all' | LocalizedWishItem['categoryKey']
-  >('all');
+    LocalizedWishItem['categoryKey']
+  >('wife');
   const [copiedWishId, setCopiedWishId] = useState<string | null>(null);
+
+  const applyWishToStudioInputs = (wish: LocalizedWishItem) => {
+    setCardHeaderLine(wish.headerLine);
+    setCardGreetingLine(wish.greetingLine);
+    setCardTitleLine(wish.title);
+    setCardBodyMessage(wish.message);
+    setCardClosingLine(wish.closing);
+    setCardSignatureLine(wish.signatureLine);
+    setCardFooterLine(wish.footerLine);
+  };
 
   const handleSelectLanguage = (newLang: SupportedLanguage) => {
     setLang(newLang);
-    const defaults = SITE_TRANSLATIONS[newLang].cardDefaults;
-    setCardHeaderLine(defaults.headerLine);
-    setCardGreetingLine(defaults.greetingLine);
-    setCardTitleLine(defaults.titleLine);
-    setCardBodyMessage(defaults.bodyMessage);
-    setCardClosingLine(defaults.closingLine);
-    setCardSignatureLine(defaults.signatureLine);
-    setCardFooterLine(defaults.footerLine);
-    setEditableWishes(FULL_LANGUAGE_CONTENT[newLang].wishesList);
+    const newWishes = FULL_LANGUAGE_CONTENT[newLang].wishesList;
+    setEditableWishes(newWishes);
+    const matchingCategoryWish =
+      newWishes.find((w) => w.categoryKey === wishCategoryKey) || newWishes[0];
+    if (matchingCategoryWish) {
+      applyWishToStudioInputs(matchingCategoryWish);
+    }
     const langMeta = SUPPORTED_LANGUAGES.find((l) => l.code === newLang);
-    showToast(`${langMeta?.nativeName} (${langMeta?.englishName})`);
+    showToast(`${langMeta?.nativeName || ''}`);
+  };
+
+  const handleSelectWishCategory = (
+    categoryKey: LocalizedWishItem['categoryKey']
+  ) => {
+    setWishCategoryKey(categoryKey);
+    const matchingWish = editableWishes.find(
+      (w) => w.categoryKey === categoryKey
+    );
+    if (matchingWish) {
+      applyWishToStudioInputs(matchingWish);
+      showToast(`${matchingWish.category} — ${matchingWish.title}`);
+    }
   };
 
   const selectedCardTheme = useMemo(
@@ -718,7 +946,6 @@ export default function App() {
   );
 
   const filteredWishes = useMemo(() => {
-    if (wishCategoryKey === 'all') return editableWishes;
     return editableWishes.filter((w) => w.categoryKey === wishCategoryKey);
   }, [wishCategoryKey, editableWishes]);
 
@@ -733,9 +960,8 @@ export default function App() {
   };
 
   const handleLoadWishIntoStudio = (wish: LocalizedWishItem) => {
-    setCardTitleLine(wish.title);
-    setCardBodyMessage(wish.message);
-    setCardClosingLine(wish.closing);
+    setWishCategoryKey(wish.categoryKey);
+    applyWishToStudioInputs(wish);
     triggerProgrammaticScroll('greeting-card-studio', 'wishes');
     showToast(wish.title);
   };
@@ -765,27 +991,37 @@ export default function App() {
   };
 
   const handleShareStudioCard = async () => {
-    const text = formatStudioFullText();
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      try {
-        await navigator.share({
-          title: cardTitleLine || t.brandTitle,
-          text,
-        });
-        return;
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') return;
-      }
+    const result = await shareGreetingCardImage(
+      {
+        headerLine: cardHeaderLine,
+        greetingLine: cardGreetingLine,
+        titleLine: cardTitleLine,
+        bodyMessage: cardBodyMessage,
+        closingLine: cardClosingLine,
+        signatureLine: cardSignatureLine,
+        footerLine: cardFooterLine,
+        theme: selectedCardTheme,
+        orientation: cardOrientation,
+      },
+      cardTitleLine || t.brandTitle
+    );
+
+    if (result === 'shared') {
+      showToast(t.btnShareCard);
+    } else if (result === 'copied-image') {
+      showToast(lc.copiedLabel);
     }
-    await handleCopyStudioCardText();
   };
 
   const handleCopyLibraryWish = async (wish: LocalizedWishItem) => {
     const fullText = [
-      wish.category,
+      wish.headerLine,
+      wish.greetingLine,
       wish.title,
       `“${wish.message}”`,
       wish.closing,
+      wish.signatureLine,
+      wish.footerLine,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -798,7 +1034,7 @@ export default function App() {
   };
 
   // 9. FAQ Accordion State + Dynamic Yearly Puja Vidhi & FAQ Computations
-  const [openFaqId, setOpenFaqId] = useState<string | null>('faq-date');
+  const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
   // Dynamically compute all 6 Puja Vidhi step timing windows for the selected Year & City
   const dynamicVidhiSteps = useMemo(() => {
@@ -812,13 +1048,16 @@ export default function App() {
     ];
     return lc.vidhiSteps.map((step, idx) => {
       const prefix = step.timingWindow.split('·')[0]?.trim() || '';
-      const computedTime = dynamicWindows[idx] || step.timingWindow;
+      const computedTime = localizeDateTimeText(
+        dynamicWindows[idx] || step.timingWindow,
+        lang
+      );
       return {
         ...step,
         timingWindow: prefix ? `${prefix} · ${computedTime}` : computedTime,
       };
     });
-  }, [lc.vidhiSteps, activeCityYearTimings]);
+  }, [lc.vidhiSteps, activeCityYearTimings, lang]);
 
   // Dynamically compute FAQs across all 6 languages for the live Upcoming Year, Next Year & Selected City/Year
   const dynamicFaqsList = useMemo(() => {
@@ -843,35 +1082,50 @@ export default function App() {
           return {
             ...faq,
             question: `ভারতীয় পঞ্জিকা অনুসারে ${upYr} এবং ${nextYr} সালে করওয়া চৌথ কবে ও কখন পালিত হবে?`,
-            answer: `হিন্দু পঞ্জিকা অনুসারে কার্তিক মাসের কৃষ্ণপক্ষের চতুর্থী তিথিতে করওয়া চৌথ (করক চতুর্থী) পালিত হয়। সঠিক দৃক পঞ্জিকা গণনা (${cityName} IST) অনুযায়ী: ★ ${upYr} সালে করওয়া চৌথ: ${upData.dateFormatted} (${upData.dayOfWeek}) — চতুর্থী তিথি শুরু: ${upData.tithiBegins}, তিথি সমাপ্ত: ${upData.tithiEnds}; সান্ধ্য পূজার শুভ মুহূর্ত: ${upCity.pujaMuhuratDisplay}; ব্রতের সময়কাল: ${upCity.vratDurationDisplay}; এবং চন্দ্রোদয় (চাঁদ ওঠার সময়): ${upCity.moonriseDisplay}। ★ ${nextYr} সালে করওয়া চৌথ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — চতুর্থী তিথি শুরু: ${nextData.tithiBegins}, তিথি সমাপ্ত: ${nextData.tithiEnds}; পূজার মুহূর্ত: ${nextCity.pujaMuhuratDisplay}; এবং চন্দ্রোদয়: ${nextCity.moonriseDisplay}।`,
+            answer: localizeDateTimeText(
+              `হিন্দু পঞ্জিকা অনুসারে কার্তিক মাসের কৃষ্ণপক্ষের চতুর্থী তিথিতে করওয়া চৌথ (করক চতুর্থী) পালিত হয়। সঠিক দৃক পঞ্জিকা গণনা (${cityName}) অনুযায়ী: ★ ${upYr} সালে করওয়া চৌথ: ${upData.dateFormatted} (${upData.dayOfWeek}) — চতুর্থী তিথি শুরু: ${upData.tithiBegins}, তিথি সমাপ্ত: ${upData.tithiEnds}; সান্ধ্য পূজার শুভ মুহূর্ত: ${upCity.pujaMuhuratDisplay}; ব্রতের সময়কাল: ${upCity.vratDurationDisplay}; এবং চন্দ্রোদয় (চাঁদ ওঠার সময়): ${upCity.moonriseDisplay}। ★ ${nextYr} সালে করওয়া চৌথ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — চতুর্থী তিথি শুরু: ${nextData.tithiBegins}, তিথি সমাপ্ত: ${nextData.tithiEnds}; পূজার মুহূর্ত: ${nextCity.pujaMuhuratDisplay}; এবং চন্দ্রোদয়: ${nextCity.moonriseDisplay}।`,
+              lang
+            ),
           };
         }
         if (lang === 'hi') {
           return {
             ...faq,
             question: `भारतीय पंचांग के अनुसार ${upYr} और ${nextYr} में करवा चौथ कब है और पूजा व चन्द्रोदय का सही समय क्या है?`,
-            answer: `करवा चौथ (करक चतुर्थी) कार्तिक मास के कृष्ण पक्ष की चतुर्थी तिथि को मनाया जाता है। प्रमाणित दृक पंचांग (${cityName} IST) के अनुसार: ★ ${upYr} में करवा चौथ: ${upData.dateFormatted} (${upData.dayOfWeek}) — चतुर्थी तिथि प्रारंभ: ${upData.tithiBegins}, तिथि समाप्त: ${upData.tithiEnds}; सायंकालीन पूजा मुहूर्त: ${upCity.pujaMuhuratDisplay}; व्रत अवधि: ${upCity.vratDurationDisplay}; तथा चन्द्रोदय समय: ${upCity.moonriseDisplay}। ★ ${nextYr} में करवा चौथ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — चतुर्थी तिथि प्रारंभ: ${nextData.tithiBegins}, तिथि समाप्त: ${nextData.tithiEnds}; पूजा मुहूर्त: ${nextCity.pujaMuhuratDisplay}; तथा चन्द्रोदय: ${nextCity.moonriseDisplay}।`,
+            answer: localizeDateTimeText(
+              `करवा चौथ (करक चतुर्थी) कार्तिक मास के कृष्ण पक्ष की चतुर्थी तिथि को मनाया जाता है। प्रमाणित दृक पंचांग (${cityName}) के अनुसार: ★ ${upYr} में करवा चौथ: ${upData.dateFormatted} (${upData.dayOfWeek}) — चतुर्थी तिथि प्रारंभ: ${upData.tithiBegins}, तिथि समाप्त: ${upData.tithiEnds}; सायंकालीन पूजा मुहूर्त: ${upCity.pujaMuhuratDisplay}; व्रत अवधि: ${upCity.vratDurationDisplay}; तथा चन्द्रोदय समय: ${upCity.moonriseDisplay}। ★ ${nextYr} में करवा चौथ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — चतुर्थी तिथि प्रारंभ: ${nextData.tithiBegins}, तिथि समाप्त: ${nextData.tithiEnds}; पूजा मुहूर्त: ${nextCity.pujaMuhuratDisplay}; तथा चन्द्रोदय: ${nextCity.moonriseDisplay}।`,
+              lang
+            ),
           };
         }
         if (lang === 'pa') {
           return {
             ...faq,
             question: `ਭਾਰਤੀ ਪੰਚਾਂਗ ਅਨੁਸਾਰ ${upYr} ਅਤੇ ${nextYr} ਵਿੱਚ ਕਰਵਾ ਚੌਥ ਕਦੋਂ ਹੈ ਅਤੇ ਪੂਜਾ ਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਹੀ ਸਮਾਂ ਕੀ ਹੈ?`,
-            answer: `ਕਰਵਾ ਚੌਥ ਕੱਤਕ ਮਹੀਨੇ ਦੇ ਕ੍ਰਿਸ਼ਨ ਪੱਖ ਦੀ ਚਤੁਰਥੀ ਤਿਥੀ ਨੂੰ ਮਨਾਇਆ ਜਾਂਦਾ ਹੈ। ਪ੍ਰਮਾਣਿਤ ਪੰਚਾਂਗ (${cityName} IST) ਅਨੁਸਾਰ: ★ ${upYr} ਵਿੱਚ ਕਰਵਾ ਚੌਥ: ${upData.dateFormatted} (${upData.dayOfWeek}) — ਚਤੁਰਥੀ ਤਿਥੀ ਸ਼ੁਰੂ: ${upData.tithiBegins}, ਤਿਥੀ ਸਮਾਪਤ: ${upData.tithiEnds}; ਸ਼ਾਮ ਦੀ ਪੂਜਾ ਦਾ ਮੁਹੂਰਤ: ${upCity.pujaMuhuratDisplay}; ਵਰਤ ਦਾ ਸਮਾਂ: ${upCity.vratDurationDisplay}; ਅਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ: ${upCity.moonriseDisplay}। ★ ${nextYr} ਵਿੱਚ ਕਰਵਾ ਚੌਥ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — ਪੂਜਾ ਮੁਹੂਰਤ: ${nextCity.pujaMuhuratDisplay}; ਅਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ: ${nextCity.moonriseDisplay}।`,
+            answer: localizeDateTimeText(
+              `ਕਰਵਾ ਚੌਥ ਕੱਤਕ ਮਹੀਨੇ ਦੇ ਕ੍ਰਿਸ਼ਨ ਪੱਖ ਦੀ ਚਤੁਰਥੀ ਤਿਥੀ ਨੂੰ ਮਨਾਇਆ ਜਾਂਦਾ ਹੈ। ਪ੍ਰਮਾਣਿਤ ਪੰਚਾਂਗ (${cityName}) ਅਨੁਸਾਰ: ★ ${upYr} ਵਿੱਚ ਕਰਵਾ ਚੌਥ: ${upData.dateFormatted} (${upData.dayOfWeek}) — ਚਤੁਰਥੀ ਤਿਥੀ ਸ਼ੁਰੂ: ${upData.tithiBegins}, ਤਿਥੀ ਸਮਾਪਤ: ${upData.tithiEnds}; ਸ਼ਾਮ ਦੀ ਪੂਜਾ ਦਾ ਮੁਹੂਰਤ: ${upCity.pujaMuhuratDisplay}; ਵਰਤ ਦਾ ਸਮਾਂ: ${upCity.vratDurationDisplay}; ਅਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ: ${upCity.moonriseDisplay}। ★ ${nextYr} ਵਿੱਚ ਕਰਵਾ ਚੌਥ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — ਪੂਜਾ ਮੁਹੂਰਤ: ${nextCity.pujaMuhuratDisplay}; ਅਤੇ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ: ${nextCity.moonriseDisplay}।`,
+              lang
+            ),
           };
         }
         if (lang === 'gu') {
           return {
             ...faq,
             question: `ભારતીય પંચાંગ મુજબ ${upYr} અને ${nextYr} માં કરવા ચોથ ક્યારે છે અને પૂજા તથા ચંદ્રોદયનો સાચો સમય શું છે?`,
-            answer: `કરવા ચોથ કાર્તિક માસના કૃષ્ણ પક્ષની ચતુર્થી તિથિએ ઉજવાય છે. પ્રમાણિત દ્રિક પંચાંગ (${cityName} IST) મુજબ: ★ ${upYr} માં કરવા ચોથ: ${upData.dateFormatted} (${upData.dayOfWeek}) — ચતુર્થી તિથિ પ્રારંભ: ${upData.tithiBegins}, તિથિ સમાપ્ત: ${upData.tithiEnds}; સાંજનું પૂજા મુહૂર્ત: ${upCity.pujaMuhuratDisplay}; વ્રત સમયગાળો: ${upCity.vratDurationDisplay}; અને ચંદ્રોદય સમય: ${upCity.moonriseDisplay}. ★ ${nextYr} માં કરવા ચોથ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — પૂજા મુહૂર્ત: ${nextCity.pujaMuhuratDisplay}; અને ચંદ્રોદય: ${nextCity.moonriseDisplay}.`,
+            answer: localizeDateTimeText(
+              `કરવા ચોથ કાર્તિક માસના કૃષ્ણ પક્ષની ચતુર્થી તિથિએ ઉજવાય છે. પ્રમાણિત દ્રિક પંચાંગ (${cityName}) મુજબ: ★ ${upYr} માં કરવા ચોથ: ${upData.dateFormatted} (${upData.dayOfWeek}) — ચતુર્થી તિથિ પ્રારંભ: ${upData.tithiBegins}, તિથિ સમાપ્ત: ${upData.tithiEnds}; સાંજનું પૂજા મુહૂર્ત: ${upCity.pujaMuhuratDisplay}; વ્રત સમયગાળો: ${upCity.vratDurationDisplay}; અને ચંદ્રોદય સમય: ${upCity.moonriseDisplay}. ★ ${nextYr} માં કરવા ચોથ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — પૂજા મુહૂર્ત: ${nextCity.pujaMuhuratDisplay}; અને ચંદ્રોદય: ${nextCity.moonriseDisplay}.`,
+              lang
+            ),
           };
         }
         if (lang === 'mr') {
           return {
             ...faq,
             question: `भारतीय पंचांगानुसार ${upYr} आणि ${nextYr} मध्ये करवा चौथ कधी आहे आणि पूजा व चंद्रोदयाची अचूक वेळ काय आहे?`,
-            answer: `करवा चौथ (करक चतुर्थी) कार्तिक महिन्याच्या कृष्ण पक्षातील चतुर्थी तिथीला साजरा केला जातो. प्रमाणित दृक पंचांगानुसार (${cityName} IST): ★ ${upYr} मध्ये करवा चौथ: ${upData.dateFormatted} (${upData.dayOfWeek}) — चतुर्थी तिथी प्रारंभ: ${upData.tithiBegins}, तिथी समाप्त: ${upData.tithiEnds}; सायंकाळचा पूजा मुहूर्त: ${upCity.pujaMuhuratDisplay}; व्रत काळ: ${upCity.vratDurationDisplay}; आणि चंद्रोदय वेळ: ${upCity.moonriseDisplay}. ★ ${nextYr} मध्ये करवा चौथ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — पूजा मुहूर्त: ${nextCity.pujaMuhuratDisplay}; आणि चंद्रोदय: ${nextCity.moonriseDisplay}.`,
+            answer: localizeDateTimeText(
+              `करवा चौथ (करक चतुर्थी) कार्तिक महिन्याच्या कृष्ण पक्षातील चतुर्थी तिथीला साजरा केला जातो. प्रमाणित दृक पंचांगानुसार (${cityName}): ★ ${upYr} मध्ये करवा चौथ: ${upData.dateFormatted} (${upData.dayOfWeek}) — चतुर्थी तिथी प्रारंभ: ${upData.tithiBegins}, तिथी समाप्त: ${upData.tithiEnds}; सायंकाळचा पूजा मुहूर्त: ${upCity.pujaMuhuratDisplay}; व्रत काळ: ${upCity.vratDurationDisplay}; आणि चंद्रोदय वेळ: ${upCity.moonriseDisplay}. ★ ${nextYr} मध्ये करवा चौथ: ${nextData.dateFormatted} (${nextData.dayOfWeek}) — पूजा मुहूर्त: ${nextCity.pujaMuhuratDisplay}; आणि चंद्रोदय: ${nextCity.moonriseDisplay}.`,
+              lang
+            ),
           };
         }
 
@@ -888,10 +1142,16 @@ export default function App() {
             ? ` (${selectedYear} সালে ${cityName}-এ নির্ধারিত চন্দ্রোদয়ের সময়: ${selData.dateFormatted}, ${selCity.moonriseDisplay})`
             : lang === 'hi'
             ? ` (${selectedYear} में ${cityName} के लिए प्रमाणित चन्द्रोदय समय: ${selData.dateFormatted}, ${selCity.moonriseDisplay})`
+            : lang === 'pa'
+            ? ` (${selectedYear} ਵਿੱਚ ${cityName} ਲਈ ਚੰਨ ਚੜ੍ਹਨ ਦਾ ਸਮਾਂ: ${selData.dateFormatted}, ${selCity.moonriseDisplay})`
+            : lang === 'gu'
+            ? ` (${selectedYear} માં ${cityName} માટે ચંદ્રોદય સમય: ${selData.dateFormatted}, ${selCity.moonriseDisplay})`
+            : lang === 'mr'
+            ? ` (${selectedYear} मध्ये ${cityName} साठी चंद्रोदय वेळ: ${selData.dateFormatted}, ${selCity.moonriseDisplay})`
             : ` (Verified ${selectedYear} Chandrodaya time for ${cityName}: ${selData.dateFormatted} at ${selCity.moonriseDisplay})`;
         return {
           ...faq,
-          answer: `${faq.answer}${timingNote}`,
+          answer: `${faq.answer}${localizeDateTimeText(timingNote, lang)}`,
         };
       }
 
@@ -931,7 +1191,7 @@ export default function App() {
         '@graph': [
           {
             '@type': 'WebSite',
-            name: 'Happy Karwa Chauth — Sacred Vrat & Puja Guide',
+            name: 'Happy Karwa Chauth',
             image: './favicon.png',
             publisher: {
               '@type': 'Organization',
@@ -942,7 +1202,7 @@ export default function App() {
               },
             },
             description:
-              'Authentic Indian Hindu festival guide for Karwa Chauth featuring verified Panchang countdowns, Puja Vidhi, interactive Samagri checklist, Sargi preparation, and shareable blessings.',
+              'Celebrate Karwa Chauth With A Verified Indian Panchang Countdown, Step-By-Step Puja Vidhi Guide',
           },
           {
             '@type': 'Event',
@@ -1166,7 +1426,7 @@ export default function App() {
             className="bg-[#FFF4E6] px-4 py-3 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-sm font-medium text-[#2A0808] shadow-lg"
           >
             {[
-              { id: 'top', label: t.brandTitle },
+              { id: 'top', label: t.navTopPage },
               { id: 'countdown', label: t.navCountdown },
               { id: 'puja-vidhi', label: t.navPujaVidhi },
               { id: 'samagri', label: t.navSamagri },
@@ -1268,10 +1528,10 @@ export default function App() {
                   {t.heroSubtitle}
                 </p>
 
-                {/* Sacred Sanskrit Shloka Callout */}
+                {/* Sacred Shloka Callout */}
                 <div className="rounded-2xl bg-[#FCE7D6]/85 border border-[#D4AF37]/60 p-4 sm:p-5 space-y-1.5">
                   <p className="font-serif text-base sm:text-xl font-semibold text-[#7F1D1D]">
-                    “करकचतुर्थी व्रतं सुखसौभाग्य समृद्धिदायकम्”
+                    {t.heroMantraText}
                   </p>
                   <p className="text-xs sm:text-sm text-[#450A0A]/85 leading-relaxed">
                     {t.heroMantraMeaning}
@@ -1429,7 +1689,7 @@ export default function App() {
                       >
                         <span className="whitespace-nowrap">
                           {isNextUpcoming ? '★ ' : ''}
-                          {yrNum} · {yrData.shortDate}
+                          {yrNum} · {localizeDateTimeText(yrData.shortDate, lang)}
                         </span>
                         <span
                           className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded whitespace-nowrap ${
@@ -1469,7 +1729,10 @@ export default function App() {
                         onClick={() => {
                           setSelectedCityId(cityItem.id);
                           showToast(
-                            `${locCity} · ${selectedYear} (${cityYrTimings.moonriseDisplay})`
+                            `${locCity} · ${selectedYear} (${localizeDateTimeText(
+                              cityYrTimings.moonriseDisplay,
+                              lang
+                            )})`
                           );
                         }}
                         className={`btn-festive-outline inline-flex items-center justify-center px-2.5 py-2 rounded-lg text-xs font-medium border text-center whitespace-nowrap truncate cursor-pointer ${
@@ -1566,7 +1829,10 @@ export default function App() {
                     {lc.panchangEveningMuhurat} ({selectedYear})
                   </div>
                   <div className="font-mono tabular-nums text-sm sm:text-base font-semibold text-[#FFF4E6]">
-                    {activeCityYearTimings.pujaMuhuratDisplay}
+                    {localizeDateTimeText(
+                      activeCityYearTimings.pujaMuhuratDisplay,
+                      lang
+                    )}
                   </div>
                   <div className="text-xs text-[#FCE7D6]/75 truncate">
                     {lc.panchangPradoshWindow}
@@ -1578,7 +1844,10 @@ export default function App() {
                     {localizedCityMeta.city} {lc.panchangMoonriseSuffix} ({selectedYear})
                   </div>
                   <div className="font-mono tabular-nums text-sm sm:text-base font-semibold text-[#FFF4E6]">
-                    {activeCityYearTimings.moonriseDisplay}
+                    {localizeDateTimeText(
+                      activeCityYearTimings.moonriseDisplay,
+                      lang
+                    )}
                   </div>
                   <div className="text-xs text-[#FCE7D6]/75 truncate">
                     {lc.panchangChhalniArghya}
@@ -1590,7 +1859,10 @@ export default function App() {
                     {lc.panchangVratDuration} ({selectedYear})
                   </div>
                   <div className="font-mono tabular-nums text-sm sm:text-base font-semibold text-[#FFF4E6]">
-                    {activeCityYearTimings.vratDurationDisplay}
+                    {localizeDateTimeText(
+                      activeCityYearTimings.vratDurationDisplay,
+                      lang
+                    )}
                   </div>
                   <div className="text-xs text-[#FCE7D6]/75 truncate">
                     {lc.panchangSunriseToMoonrise}
@@ -1602,10 +1874,12 @@ export default function App() {
                     {lc.panchangTithiWindow} ({selectedYear})
                   </div>
                   <div className="font-mono tabular-nums text-xs sm:text-sm font-semibold text-[#FFF4E6] truncate">
-                    {lc.panchangBegins}: {activeYearData.tithiBegins}
+                    {lc.panchangBegins}:{' '}
+                    {localizeDateTimeText(activeYearData.tithiBegins, lang)}
                   </div>
                   <div className="font-mono tabular-nums text-xs text-[#FCE7D6]/80 truncate">
-                    {lc.panchangEnds}: {activeYearData.tithiEnds}
+                    {lc.panchangEnds}:{' '}
+                    {localizeDateTimeText(activeYearData.tithiEnds, lang)}
                   </div>
                 </div>
               </div>
@@ -1759,7 +2033,10 @@ export default function App() {
                               onClick={() =>
                                 handleCopyMantra(
                                   currentStep.stepNumber,
-                                  `${currentStep.sacredMantra!.devanagari}\n${currentStep.sacredMantra!.transliteration}\n${lc.meaningLabel} ${currentStep.sacredMantra!.meaning}`
+                                  currentStep.sacredMantra!.transliteration !==
+                                    currentStep.sacredMantra!.devanagari
+                                    ? `${currentStep.sacredMantra!.devanagari}\n${currentStep.sacredMantra!.transliteration}\n${lc.meaningLabel} ${currentStep.sacredMantra!.meaning}`
+                                    : `${currentStep.sacredMantra!.devanagari}\n${lc.meaningLabel} ${currentStep.sacredMantra!.meaning}`
                                 )
                               }
                               className="btn-festive-outline inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-[#FFF4E6] hover:bg-[#7F1D1D] hover:text-[#FFF4E6] text-[#7F1D1D] border border-[#7F1D1D]/25 cursor-pointer"
@@ -1780,9 +2057,12 @@ export default function App() {
                           <p className="font-serif text-lg sm:text-xl font-bold text-[#450A0A] leading-snug">
                             {currentStep.sacredMantra.devanagari}
                           </p>
-                          <p className="text-xs sm:text-sm italic text-[#7F1D1D]">
-                            {currentStep.sacredMantra.transliteration}
-                          </p>
+                          {currentStep.sacredMantra.transliteration !==
+                            currentStep.sacredMantra.devanagari && (
+                            <p className="text-xs sm:text-sm italic text-[#7F1D1D]">
+                              {currentStep.sacredMantra.transliteration}
+                            </p>
+                          )}
                           <p className="text-xs sm:text-sm text-[#450A0A]/85 pt-1 border-t border-[#7F1D1D]/10">
                             <strong className="font-semibold text-[#450A0A]">
                               {lc.meaningLabel}
@@ -2133,9 +2413,6 @@ export default function App() {
                           }`}
                         >
                           {displayName}
-                        </div>
-                        <div className="text-xs font-medium text-[#B91C1C]">
-                          {item.hindiName}
                         </div>
                         <p className="text-xs sm:text-sm text-[#450A0A]/80 leading-relaxed pt-0.5">
                           {displayPurpose}
@@ -2669,7 +2946,6 @@ export default function App() {
                 <div className="flex flex-wrap items-center gap-1.5">
                   {(
                     [
-                      { key: 'all', label: lc.wishFilterTabs.all },
                       { key: 'wife', label: lc.wishFilterTabs.wife },
                       { key: 'husband', label: lc.wishFilterTabs.husband },
                       { key: 'mother', label: lc.wishFilterTabs.mother },
@@ -2683,7 +2959,7 @@ export default function App() {
                     <button
                       key={tab.key}
                       type="button"
-                      onClick={() => setWishCategoryKey(tab.key)}
+                      onClick={() => handleSelectWishCategory(tab.key)}
                       className={`btn-festive-outline px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer ${
                         wishCategoryKey === tab.key
                           ? 'bg-[#7F1D1D] text-[#FFF4E6]'
@@ -2707,7 +2983,7 @@ export default function App() {
                       className="rounded-2xl bg-[#FFF4E6] border border-[#D4AF37]/60 p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-2xs"
                     >
                       <CardTopLotusOrnament
-                        className="w-48 sm:w-56 h-7 mx-auto -mb-1"
+                        className="w-28 sm:w-32 h-4 mx-auto -mb-1"
                         variant="sindoor-gold"
                       />
                       {isEditingThisCard ? (
@@ -2720,6 +2996,7 @@ export default function App() {
                               type="button"
                               onClick={() => {
                                 setEditingWishId(null);
+                                applyWishToStudioInputs(wish);
                                 showToast(lc.doneEditingBtn);
                               }}
                               className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#7F1D1D] text-[#FFF4E6] cursor-pointer"
@@ -2728,22 +3005,42 @@ export default function App() {
                             </button>
                           </div>
 
-                          <div>
-                            <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
-                              {lc.rowLabels[0]}
-                            </label>
-                            <input
-                              type="text"
-                              value={wish.category}
-                              onChange={(e) =>
-                                handleUpdateWishField(
-                                  wish.id,
-                                  'category',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs"
-                            />
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
+                                {lc.rowLabels[0]}
+                              </label>
+                              <input
+                                type="text"
+                                value={wish.headerLine}
+                                onChange={(e) =>
+                                  handleUpdateWishField(
+                                    wish.id,
+                                    'headerLine',
+                                    e.target.value
+                                  )
+                                }
+                                className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
+                                {lc.rowLabels[1]}
+                              </label>
+                              <input
+                                type="text"
+                                value={wish.greetingLine}
+                                onChange={(e) =>
+                                  handleUpdateWishField(
+                                    wish.id,
+                                    'greetingLine',
+                                    e.target.value
+                                  )
+                                }
+                                className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs"
+                              />
+                            </div>
                           </div>
 
                           <div>
@@ -2782,37 +3079,78 @@ export default function App() {
                             />
                           </div>
 
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
+                                {lc.rowLabels[4]}
+                              </label>
+                              <input
+                                type="text"
+                                value={wish.closing}
+                                onChange={(e) =>
+                                  handleUpdateWishField(
+                                    wish.id,
+                                    'closing',
+                                    e.target.value
+                                  )
+                                }
+                                className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs sm:text-sm font-serif italic"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
+                                {lc.rowLabels[5]}
+                              </label>
+                              <input
+                                type="text"
+                                value={wish.signatureLine}
+                                onChange={(e) =>
+                                  handleUpdateWishField(
+                                    wish.id,
+                                    'signatureLine',
+                                    e.target.value
+                                  )
+                                }
+                                className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs"
+                              />
+                            </div>
+                          </div>
+
                           <div>
                             <label className="block text-[11px] font-semibold text-[#7F1D1D] mb-0.5">
-                              {lc.rowLabels[4]}
+                              {lc.rowLabels[6]}
                             </label>
                             <input
                               type="text"
-                              value={wish.closing}
+                              value={wish.footerLine}
                               onChange={(e) =>
                                 handleUpdateWishField(
                                   wish.id,
-                                  'closing',
+                                  'footerLine',
                                   e.target.value
                                 )
                               }
-                              className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs sm:text-sm font-serif italic"
+                              className="w-full rounded-lg bg-[#FFF8F0] border border-[#7F1D1D]/30 px-2.5 py-1.5 text-xs"
                             />
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-2.5">
+                        <div className="space-y-2">
                           <div className="flex items-center justify-between text-xs text-[#B91C1C] font-semibold uppercase tracking-wider">
-                            <span>{wish.category}</span>
+                            <span>{wish.headerLine}</span>
                             <button
                               type="button"
                               onClick={() => setEditingWishId(wish.id)}
-                              className="inline-flex items-center gap-1 text-[#7F1D1D] hover:text-[#B91C1C] underline underline-offset-2 cursor-pointer"
+                              className="inline-flex items-center gap-1 text-[#7F1D1D] hover:text-[#B91C1C] underline underline-offset-2 cursor-pointer shrink-0 ml-2"
                             >
                               <Edit3 className="w-3 h-3" />
                               <span>{lc.editAllRowsBtn}</span>
                             </button>
                           </div>
+                          <p className="font-serif italic text-base sm:text-lg font-bold text-[#7F1D1D]">
+                            {wish.greetingLine}
+                          </p>
                           <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#450A0A]">
                             {wish.title}
                           </h4>
@@ -2822,6 +3160,12 @@ export default function App() {
                           <p className="font-serif italic text-base font-semibold text-[#7F1D1D]">
                             {wish.closing}
                           </p>
+                          <div className="pt-1 text-xs text-[#450A0A]/85 flex flex-wrap items-center justify-between gap-2">
+                            <span className="font-semibold">{wish.signatureLine}</span>
+                            <span className="uppercase tracking-wider text-[11px] text-[#7F1D1D]/80">
+                              {wish.footerLine}
+                            </span>
+                          </div>
                         </div>
                       )}
 

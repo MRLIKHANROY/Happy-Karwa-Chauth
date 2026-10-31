@@ -1,10 +1,12 @@
-# 🌕 Happy Karwa Chauth — Complete Festival Companion
+# 🌕 Happy Karwa Chauth
+
+> **Celebrate Karwa Chauth With A Verified Indian Panchang Countdown, Step-By-Step Puja Vidhi Guide**
 
 <p align="center">
   <img src="public/logo.png" alt="Happy Karwa Chauth Logo" width="120" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(234, 179, 8, 0.4);" />
 </p>
 
-<h3 align="center">✨ Accurate Panchang Muhurat, City-Wise Moonrise Timings, Puja Vidhi, Vrat Katha & Festive Wishes Cards ✨</h3>
+<h3 align="center">✨ Celebrate Karwa Chauth With A Verified Indian Panchang Countdown, Step-By-Step Puja Vidhi Guide ✨</h3>
 
 <p align="center">
   <a href="https://github.com/MRLIKHANROY"><img src="https://img.shields.io/badge/Developed%20By-MRLIKHANROY-795548?style=for-the-badge&logo=github&logoColor=white" alt="Developer" /></a>
@@ -19,7 +21,7 @@
 
 ## 📖 Overview
 
-**Happy Karwa Chauth** is an all-in-one festive web application dedicated to the auspicious Hindu festival of Karwa Chauth. Designed with a royal marigold and crimson Indian aesthetic, it provides devotees with **100% verified Vedic Drik Panchang timings**, **live moonrise countdowns across 40+ major cities**, **complete ritual guides (Vidhi, Katha, Aarti, Samagri)**, and an **interactive Wishes & Greeting Cards generator**.
+**Happy Karwa Chauth** — Celebrate Karwa Chauth With A Verified Indian Panchang Countdown, Step-By-Step Puja Vidhi Guide. Dedicated to the auspicious Hindu festival of Karwa Chauth with a royal marigold and crimson Indian aesthetic, providing devotees with verified Vedic Drik Panchang timings, live moonrise countdowns across 40+ major cities, complete ritual guides (Vidhi, Katha, Aarti, Samagri), and an interactive Wishes & Greeting Cards generator.
 
 The platform is engineered to remain **accurate and updated every year** automatically via astronomical synodic lunar calculations and verified panchang seeds.
 
